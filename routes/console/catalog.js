@@ -8,20 +8,12 @@ router.get('/catalog', function(req, res, next) {
     var Catalog_country = require('../../models/' + className);
     var id=1;
 
-    if( id && id>0 ) {
+    console.log( Catalog_country );
+
+    /*if( id && id>0 ) {
         new Catalog_country({id: 1})
             .fetch()
             .then(function (item) {
-/*                console.log( 'item.__proto__ - ' );
-                console.dir( item.__proto__ );
-
-                console.log( 'item.__proto__.__proto__ - ' );
-                console.dir( item.__proto__.__proto__ );
-                console.log( 'item.__proto__.__proto__.__proto__ - ' );
-                console.dir( item.__proto__.__proto__.__proto__ );
-                console.log( 'item.__proto__.__proto__.__proto__.__proto__ - ' );
-                console.dir( item.__proto__.__proto__.__proto__.__proto__ );*/
-
                 var form = bsForm.getForm( className, item.attributes );
                 res.render('console/catalog', {form:form, className: className, message:''});
             })
@@ -32,7 +24,7 @@ router.get('/catalog', function(req, res, next) {
         else {
         var form = bsForm.getForm(className, {});
         res.render('console/catalog', {form:form, className: className, message:''});
-    }
+    }*/
 });
 
 router.post('/catalog', function(req, res, next) {

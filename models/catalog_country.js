@@ -1,20 +1,23 @@
-﻿var mysql  = require('mysql');
-var config = require('../config');
-var Promise = require('bluebird');
-var knex = require('knex')( config.get("db") );
-var bookshelf = require('bookshelf')(knex);
+﻿var pgORM  = require('pg-orm');
+var Catalog_country = new pgORM( 'catalog_country' );
 
-var Catalog_country = bookshelf.Model.extend({
-    tableName: 'catalog_country',
+Catalog_country.attributes = [
+    name,
+    title,
+    description,
+    image,
+    name_2,
+    baner,
+    banner2,
+    slug,
+    active,
+    translate,
+    rating,
+    pos,
+    del
+];
 
-    orderBy: function (column, order) {
-        return this.query(function (qb) {
-            qb.orderBy(column, order);
-        });
-    }
-});
-
-Catalog_country.attributes = {
+Catalog_country.attributesName = {
     name:'Название',
     title:'Заголовок',
     description:'Описание',

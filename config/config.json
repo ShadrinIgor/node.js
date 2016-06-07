@@ -4,10 +4,10 @@
     "client" : "mysql",
     "connection" : {
       "host": "127.0.0.1",
-      "database": "yii_travel_new",
+      "database": "world-travel.uz",
       "port" : 3306,
       "user": "root",
-      "password": "mysql",
+      "password": "",
       "charset": "utf8"
     }
   }
