@@ -1,0 +1,87 @@
+body {
+    background: #f2f2f2;
+}
+
+a {
+    color: #4F6B72;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.demo {
+    width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+    color: #4F6B72;
+    font-family: "PT Sans", Verdana, Arial, sans-serif;
+    font-size: 13px;
+}
+
+.demo h1 {
+    font-size: 18px;
+}
+
+.demo .permalink {
+    display: block;
+    color: #4F6B72;
+    margin: 10px 0;
+}
+
+#output img {
+    border: 1px solid #dedede;
+    color: #cc0000;
+    padding: 10px;
+    background: #fff;
+}
+
+#output {
+    margin-top: 20px;
+    display: none;
+}
+
+#dropzone {
+    border: 4px dashed #bbb;
+    border-radius: 5px;
+    color: #444;
+    padding: 25px;
+    text-align: center;
+}
+
+#dropzone .title {
+    font-size: 20px;
+}
+
+#dropzone input {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: transparent;
+    border-image: none;
+    cursor: pointer;
+    direction: ltr;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(-300px, 0px) scale(4);
+}
+
+#dropzone .browser span {
+    background: #f7f7f7;
+    border: 1px solid #ccc;
+    color: #555;
+    cursor: pointer;
+    font-size: 16px;
+    height: 46px;
+    line-height: 44px;
+    padding: 0 36px;
+}
+
+#dropzone .browser span:hover{
+    border: 1px solid #999;
+}

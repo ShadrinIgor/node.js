@@ -1,0 +1,14 @@
+{
+  "port" : 3000,
+  "db" : {
+    "client" : "mysql",
+    "connection" : {
+      "host": "127.0.0.1",
+      "database": "yii_travel_new",
+      "port" : 3306,
+      "user": "root",
+      "password": "mysql",
+      "charset": "utf8"
+    }
+  }
+}
