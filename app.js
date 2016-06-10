@@ -62,13 +62,13 @@ passport.deserializeUser( function( id, done ){
 });
 // END PASSPORT
 
-app.use(session({
+/*app.use(session({
     key: 'session_cookie_name',
     secret: 'session_cookie_secret',
     store:  new MySQLStore( nconf.get("db:connection") ),
     resave: true,
     saveUninitialized: true
-}));
+}));*/
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

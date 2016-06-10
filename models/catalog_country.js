@@ -1,21 +1,22 @@
 ﻿var pgORM  = require('pg-orm');
-var Catalog_country = new pgORM( 'catalog_country' );
+var Catalog_country = new pgORM( 'catalog_country', [] );
 
-Catalog_country.attributes = [
-    name,
-    title,
-    description,
-    image,
-    name_2,
-    baner,
-    banner2,
-    slug,
-    active,
-    translate,
-    rating,
-    pos,
-    del
-];
+/*Catalog_country.attributes = {
+    name: null,
+    title: null,
+    description: null,
+    image: null,
+    name_2: null,
+    baner: null,
+    banner2: null,
+    slug: null,
+    active: null,
+    translate: null,
+    rating: null,
+    pos: null,
+    del: null
+};*/
+
 
 Catalog_country.attributesName = {
     name:'Название',

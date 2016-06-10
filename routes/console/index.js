@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var CatalogUsers = require('../../models/catalog_users');
 var Localpassport = require('passport-local');
 
 var catalog = require("./catalog");
@@ -18,6 +19,17 @@ router.get("/logout", function( req, res, next ){
 
 // Index
 router.get('/(:error)?', function(req, res, next) {
+
+    CatalogUsers.fetchAll( {fields:'id, name', where:'id>10', sort: 'id DESC', limit: 2, offset: 0 }, function ( item, error ){
+        if( item && item.length >0 ){
+            item.forEach( function( line, num ){
+                console.log( item[num].attributes );
+            });
+        }
+            else console.log( 'empty' );
+
+    });
+
     if( req.isAuthenticated() )
     {
         res.render('console/index', {title: 'Express'});

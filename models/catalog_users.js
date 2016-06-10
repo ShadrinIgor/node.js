@@ -1,50 +1,42 @@
-﻿var mysql  = require('mysql');
-var config = require('../config');
-var Promise = require('bluebird');
-var knex = require('knex')( config.get("db") );
-var bookshelf = require('bookshelf')(knex);
+﻿var pgOrm  = require('pg-orm');
+var inherits = require('inherits');
 
-var Catalog_tours = bookshelf.Model.extend({
-    tableName: 'catalog_users',
+var Catalog_users = new pgOrm( "catalog_users" );
 
-    /**
-     * Orders the query by column in order
-     * @param column
-     * @param order
-     */
-    orderBy: function (column, order) {
-        return this.query(function (qb) {
-            qb.orderBy(column, order);
-        });
-    },
+//inherits(Catalog_users, pgOrm );
+    //new pgOrm( "catalog_users" );
 
-    limit : function( count ){
-        return this.query( function(gb){
-            gb.limit( count ).offset(0)
-        })
-    },
+Catalog_users.attributes = {};
 
-    andWhere : function ( params ){
-        return this.query( function(gb){
-            console.log( params );
-            if( params ) {
+Catalog_users.attributesName = {
+    name:'Название',
+    active:'Активность',
+    password:'Описание',
+    surname:'Фамилия',
+    fathname:'Отчество',
+    email:'Email',
+    country_id:'Страна'
+};
 
-                if ( params[0])gb.andWhere(params[0], params[1], params[2]);
-                         else gb.andWhere(params2);
-            }
-        })
-    },
+Catalog_users.placeholder = {
+    name:'Название',
+    active:'Активность',
+    password:'Описание',
+    surname:'Фамилия',
+    fathname:'Отчество',
+    email:'Email',
+    country_id:'Страна'
+};
 
-    country : function (){
-        var Catalog_country = require( '../models/catalog_country' );
-        return this.belongsTo( Catalog_country, 'country_id' );
+Catalog_users.rules = {
+    required : ['name', 'email', 'email'],
+    save:   ['name','email', 'password', 'active', 'surname', 'fathname', 'country_id' ]
+};
 
-    },
+Catalog_users.types = {
+    email:'email',
+    password:'password',
+    active:'checkbox'
+};
 
-    category : function(){
-        var Catalog_tours_category = require( '../models/catalog_tours_category' );
-        return this.belongsTo( Catalog_tours_category, 'category_id' );
-    }
-})
-
-module.exports = Catalog_tours;
+module.exports = Catalog_users;

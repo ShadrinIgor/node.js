@@ -1,12 +1,12 @@
 {
   "port" : 3000,
   "db" : {
-    "client" : "mysql",
+    "client" : "pgsql",
     "connection" : {
       "host": "127.0.0.1",
       "database": "world-travel.uz",
-      "port" : 3306,
-      "user": "root",
+      "port" : 5432,
+      "user": "postgres",
       "password": "",
       "charset": "utf8"
     }
