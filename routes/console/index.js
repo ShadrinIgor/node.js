@@ -20,7 +20,7 @@ router.get("/logout", function( req, res, next ){
 // Index
 router.get('/(:error)?', function(req, res, next) {
 
-    CatalogUsers.fetchAll( {fields:'id, name', where:'id>10', sort: 'id DESC', limit: 2, offset: 0 }, function ( item, error ){
+/*    CatalogUsers.fetchAll( {fields:'id, name', where:'id>10', sort: 'id DESC', limit: 2, offset: 0 }, function ( item, error ){
         if( item && item.length >0 ){
             item.forEach( function( line, num ){
                 console.log( item[num].attributes );
@@ -28,6 +28,20 @@ router.get('/(:error)?', function(req, res, next) {
         }
             else console.log( 'empty' );
 
+    });*/
+
+    CatalogUsers.fetch( 28, function( item, error ){
+        if( typeof ( item ) == 'object'){
+            item.attributes["name"] = "666 OrexСA.com 555";
+            item.save( function( item, errors ){
+                if( errors != undefined && errors && errors.length > 0 ){
+                    errors.forEach( function( error ){
+                        console.log(error)
+                    })
+                }
+                    else console.log("Saved - ");
+            })
+        }
     });
 
     if( req.isAuthenticated() )

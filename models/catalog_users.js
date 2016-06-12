@@ -3,9 +3,6 @@ var inherits = require('inherits');
 
 var Catalog_users = new pgOrm( "catalog_users" );
 
-//inherits(Catalog_users, pgOrm );
-    //new pgOrm( "catalog_users" );
-
 Catalog_users.attributes = {};
 
 Catalog_users.attributesName = {
@@ -28,15 +25,18 @@ Catalog_users.placeholder = {
     country_id:'Страна'
 };
 
-Catalog_users.rules = {
+Catalog_users.attributesRule = {
     required : ['name', 'email', 'email'],
-    save:   ['name','email', 'password', 'active', 'surname', 'fathname', 'country_id' ]
+    save:   [ 'date_add', 'name','email', 'password', 'active', 'surname', 'fathname', 'country_id' ]
 };
 
-Catalog_users.types = {
+Catalog_users.attributesType = {
     email:'email',
     password:'password',
-    active:'checkbox'
+    active:'checkbox',
+    date_add : 'date',
+    integer : 'country_id',
+    boolean : 'active'
 };
 
 module.exports = Catalog_users;
