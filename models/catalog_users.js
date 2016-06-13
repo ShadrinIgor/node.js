@@ -3,7 +3,7 @@ var inherits = require('inherits');
 
 var Catalog_users = new pgOrm( "catalog_users" );
 
-Catalog_users.attributes = {};
+Catalog_users._attributes = {};
 
 Catalog_users.attributesName = {
     name:'Название',
@@ -37,6 +37,10 @@ Catalog_users.attributesType = {
     date_add : 'date',
     integer : 'country_id',
     boolean : 'active'
+};
+
+Catalog_users.relations = {
+    country_id: [ "BELONGS_TO", "catalog_country" ]
 };
 
 module.exports = Catalog_users;

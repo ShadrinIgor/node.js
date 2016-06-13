@@ -32,7 +32,21 @@ router.get('/(:error)?', function(req, res, next) {
 
     CatalogUsers.fetch( 28, function( item, error ){
         if( typeof ( item ) == 'object'){
-            item.attributes["name"] = "666 OrexСA.com 555";
+            console.log( "getAttribute" );
+            item.getAttribute("country_id", function( items ){
+                items.forEach( function( iitem ){
+                    console.log( iitem.getAttribute("id") + ' - '+iitem.getAttribute("name") );
+                } );
+
+                item.getAttribute("country_id", function( items ){
+                    items.forEach( function( iitem ){
+                        console.log( iitem.getAttribute("id") + ' 2 '+iitem.getAttribute("name") );
+                    } );
+                });
+            });
+
+
+            /*item.setAttribute("name", "666 OrexСA.com 555" );
             item.save( function( item, errors ){
                 if( errors != undefined && errors && errors.length > 0 ){
                     errors.forEach( function( error ){
@@ -40,7 +54,7 @@ router.get('/(:error)?', function(req, res, next) {
                     })
                 }
                     else console.log("Saved - ");
-            })
+            })*/
         }
     });
 
