@@ -1,5 +1,4 @@
 ﻿var pgOrm  = require('pg-orm');
-var inherits = require('inherits');
 
 var Catalog_users = new pgOrm( "catalog_users" );
 

@@ -1,23 +1,28 @@
-﻿var mysql  = require('mysql');
-var config = require('../config');
-var Promise = require('bluebird');
-var knex = require('knex')( config.get("db") );
-var bookshelf = require('bookshelf')(knex);
+﻿var pgOrm  = require('pg-orm');
+var Cat_gallery = new pgOrm( "cat_gallery" );
 
-var Сat_gallery = bookshelf.Model.extend({
-    tableName: 'cat_gallery',
+Cat_gallery._attributes = {};
 
-    orderBy: function (column, order) {
-        return this.query(function (qb) {
-            qb.orderBy(column, order);
-        });
-    },
+Cat_gallery.attributesName = {
+    image:'Файл',
+    catalog:'Каталог связи',
+    item_id:'ID связи',
+    type:'Тип',
+    del:'Удален',
+    pos:'Позиция'
+};
 
-    limit: function( count ){
-        return this.query( function(gb){
-            gb.limit( count ).offset(0);
-        } )
-    }
-});
 
-module.exports = Сat_gallery;
+Cat_gallery.attributesRule = {
+    required : ['image', 'catalog', 'item_id'],
+    save:   [ 'image', 'catalog', 'item_id', 'type', 'del', 'pos' ]
+};
+
+Cat_gallery.attributesType = {
+    item_id: 'integer',
+    image: 'image',
+    del: 'integer',
+    pos: 'integer'
+};
+
+module.exports = Cat_gallery;
