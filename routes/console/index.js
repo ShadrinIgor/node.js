@@ -30,13 +30,12 @@ router.get('/(:error)?', function(req, res, next) {
 
     });*/
 
-    CatalogUsers.fetch( 7, function( item, error ){
+    CatalogUsers.fetch( 1, function( item, error ){
         if( typeof ( item ) == 'object' ){
-
-            item.delete( function( error ){
-                if( !error ) console.log( 'Ура Успешно удалил' );
-                        else console.log( error );
+            item.getAttribute('country_id', function ( itemR ){
+                console.log( itemR.getAttribute("id") + ' - ' + itemR.getAttribute("name") );
             });
+
         }
     });
 
