@@ -1,22 +1,7 @@
 ﻿var pgORM  = require('pg-orm');
 var Catalog_country = new pgORM( 'catalog_country', [] );
 
-/*Catalog_country.attributes = {
-    name: null,
-    title: null,
-    description: null,
-    image: null,
-    name_2: null,
-    baner: null,
-    banner2: null,
-    slug: null,
-    active: null,
-    translate: null,
-    rating: null,
-    pos: null,
-    del: null
-};*/
-
+Catalog_country._attributes = {};
 
 Catalog_country.attributesName = {
     name:'Название',
@@ -42,12 +27,12 @@ Catalog_country.placeholder = {
     rating:'Оценка системы'
 };
 
-Catalog_country.rules = {
-        required : ['name',"description"],
-        save:   ['name','description', 'image', 'flag', 'name_2', 'baner', 'slug', 'active', 'translate', 'banner2', 'title', 'rating', 'pos', 'del' ]
+Catalog_country.attributesRule = {
+    required : ['name',"description"],
+    save:   ['name','description', 'image', 'flag', 'name_2', 'baner', 'slug', 'active', 'translate', 'banner2', 'title', 'rating', 'pos', 'del' ]
 };
 
-Catalog_country.types = {
+Catalog_country.attributesType = {
     description:'vtext',
     image:'image',
     flag:'image',

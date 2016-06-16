@@ -8,40 +8,39 @@ router.get('/catalog', function(req, res, next) {
     var Catalog_country = require('../../models/' + className);
     var id=1;
 
-    console.log( Catalog_country );
+    if( id && id>0 ) {
+        Catalog_country.fetch(1, function (item, error) {
+            if (error != undefined) {
+                res.send('Error1:' + error);
+            }
+            else {
 
-    /*if( id && id>0 ) {
-        new Catalog_country({id: 1})
-            .fetch()
-            .then(function (item) {
-                var form = bsForm.getForm( className, item.attributes );
-                res.render('console/catalog', {form:form, className: className, message:''});
-            })
-            .catch(function (error) {
-                res.send('Error1:'+error);
-            });
+                var form = item.getForm();
+                res.render('console/catalog', {form: form, className: className, message: ''});
+            }
+        });
+
     }
         else {
         var form = bsForm.getForm(className, {});
         res.render('console/catalog', {form:form, className: className, message:''});
-    }*/
+    }
 });
 
 router.post('/catalog', function(req, res, next) {
     var message = '';
-    var className = 'catalog_country';
     var form;
-    //var Catalog_country = require('../../models/' + className);
+    var className = 'catalog_country';
+    var Catalog_country = require('../../models/' + className);
 
-    if( bsForm.saveForm(className, req.body) ){
+    if( Catalog_country.saveForm( req.body) ){
         message = 'Запись успешно сохраннена';
-        form = bsForm.getForm(className, bsForm.obj.fields);
     }
         else{
         message = 'Произошла обшибка: '+bsForm.errors;
-        form = bsForm.getForm(className, req.body);
     }
 
+    form = Catalog_country.getForm();
     res.render('console/catalog', {form: form, className: className, message: message});
 
 /*    if (id && id > 0) {

@@ -15,7 +15,7 @@ router.get("/logout", function( req, res, next ){
         req.logOut();
         res.redirect( "/console" );
     }
-})
+});
 
 // Index
 router.get('/(:error)?', function(req, res, next) {
@@ -30,14 +30,13 @@ router.get('/(:error)?', function(req, res, next) {
 
     });*/
 
-    CatalogUsers.fetch( 1, function( item, error ){
+/*    CatalogUsers.fetch( 1, function( item, error ){
         if( typeof ( item ) == 'object' ){
             item.getAttribute('country_id', function ( itemR ){
                 console.log( itemR.getAttribute("id") + ' - ' + itemR.getAttribute("name") );
             });
-
         }
-    });
+    });*/
 
     if( req.isAuthenticated() )
     {
@@ -56,7 +55,7 @@ router.get('/(:error)?', function(req, res, next) {
 router.post('/', function( req, res, next ){
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err); }
-        if (!user) { return res.redirect('/console/error'); }
+        if (!user) { return res.redirect('/console/error');}
 
         req.logIn(user, function(err) {
             if (err) { return next(err); }

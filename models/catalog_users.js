@@ -7,11 +7,12 @@ Catalog_users._attributes = {};
 Catalog_users.attributesName = {
     name:'Название',
     active:'Активность',
-    password:'Описание',
+    password:'Пароль',
     surname:'Фамилия',
     fathname:'Отчество',
     email:'Email',
-    country_id:'Страна'
+    country_id:'Страна',
+    salt:'Соль для пароля'
 };
 
 Catalog_users.placeholder = {
@@ -26,7 +27,7 @@ Catalog_users.placeholder = {
 
 Catalog_users.attributesRule = {
     required : ['name', 'email', 'email'],
-    save:   [ 'date_add', 'name','email', 'password', 'active', 'surname', 'fathname', 'country_id' ]
+    save:   [ 'salt, date_add', 'name','email', 'password', 'active', 'surname', 'fathname', 'country_id' ]
 };
 
 Catalog_users.attributesType = {

@@ -1,13 +1,15 @@
 var express = require('express');
 var session = require('express-session');
-var MySQLStore = require( 'express-mysql-session' );
-var nconf = require('nconf');
+var config = require('./config');
+var dbConfig = config.get("db");
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var pg = require('pg');
+var pgSession = require('connect-pg-simple')(session);
 var LocalStrategy = require('passport-local').Strategy;
 var Catalog_users = require( './models/catalog_users' );
 var md5 = require("md5");
@@ -28,47 +30,56 @@ passport.use(new LocalStrategy({
         passwordField : "password"
     },
     function(username, password, done) {
-        new Catalog_users( )
-            .where( {email:username} )
-            .fetch()
-            .then( function( user ){
-                if (!user || !user.id || user.attributes.password != md5( user.attributes.salt+password ) ) {
+        Catalog_users.fetchAll( {where:"email='"+username+"'",limit:1},
+            function( users, error ){
+            if( error != undefined || typeof( users ) != "object" ){
+                return done(null, false, { message: 'No find user' });
+            }
+                else {
+                var user = users[0];
+                if (!user || !user.getAttribute("id") || user.getAttribute("password") != md5( user.getAttribute("salt")+password ) ) {
                     return done(null, false, { message: 'Incorrect data.' });
                 }
+                    else {
+                    return done(null, user)
+                }
 
-                return done(null, user);
-            })
-            .catch( function( error ) {
-                return done(error)
-            });
+            }
+        })
     }
 ));
 
 passport.serializeUser( function( user, done ){
-    console.log( 'serializeUser' );
-    done( null, user.id )
+    if( user != false ){
+        console.log( user + '-' );
+        done( null, user.getAttribute("id") );
+    }
+        else done( null, {} );
 });
 
 passport.deserializeUser( function( id, done ){
-    new Catalog_users({id:id})
-        .fetch()
-        .then( function( user ){
-            done(null,user)
-        })
-        .catch( function( error ){
-            console.log( 'deserializeUser' );
-            console.log( 'login - error ('+error+')' );
+    Catalog_users.fetch( id, function( user, error ){
+            if( error != undefined ){
+                console.log( 'deserializeUser' );
+                console.log( 'login - error ('+error+')' );
+            }
+                else done(null,user)
         })
 });
 // END PASSPORT
 
-/*app.use(session({
+app.use(session({
     key: 'session_cookie_name',
     secret: 'session_cookie_secret',
-    store:  new MySQLStore( nconf.get("db:connection") ),
+    store: new pgSession({
+        pg : pg,                                  // Use global pg-module
+        conString : "postgres://"+dbConfig.connection.user+":"+dbConfig.connection.password+"@"+dbConfig.connection.host+"/"+dbConfig.connection.database, // Connect using something else than default DATABASE_URL env variable
+        tableName : 'user_sessions'               // Use another table-name than the default "session" one
+    }),
     resave: true,
-    saveUninitialized: true
-}));*/
+    saveUninitialized: true,
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }
+}));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
