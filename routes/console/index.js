@@ -19,25 +19,6 @@ router.get("/logout", function( req, res, next ){
 
 // Index
 router.get('/(:error)?', function(req, res, next) {
-
-/*    CatalogUsers.fetchAll( {fields:'id, name', where:'id>10', sort: 'id DESC', limit: 2, offset: 0 }, function ( item, error ){
-        if( item && item.length >0 ){
-            item.forEach( function( line, num ){
-                console.log( item[num].attributes );
-            });
-        }
-            else console.log( 'empty' );
-
-    });*/
-
-/*    CatalogUsers.fetch( 1, function( item, error ){
-        if( typeof ( item ) == 'object' ){
-            item.getAttribute('country_id', function ( itemR ){
-                console.log( itemR.getAttribute("id") + ' - ' + itemR.getAttribute("name") );
-            });
-        }
-    });*/
-
     if( req.isAuthenticated() )
     {
         res.render('console/index', {title: 'Express'});

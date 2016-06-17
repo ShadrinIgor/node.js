@@ -5,6 +5,27 @@ var bsForm = require('bookshelf-form');
 /* GET users listing. */
 router.get('/catalog', function(req, res, next) {
     var className = 'catalog_country';
+    var classObj = require('../../models/' + className);
+    var id=1;
+
+    classObj.fetchAll({limit:25}, function (items, error) {
+        if (error != undefined) {
+            res.send('Error1:' + error);
+        }
+        else {
+            if( classObj.attributesRule && classObj.attributesRule.tableColumns )
+                    var lisTableColumns = classObj.attributesRule.tableColumns;
+                else
+                    var lisTableColumns = [ 'id', 'name' ];
+
+            res.render('console/catalog_list', {items: items, tableColumns: lisTableColumns, message: ''});
+        }
+    });
+
+});
+
+router.put('/catalog', function(req, res, next) {
+    var className = 'catalog_country';
     var Catalog_country = require('../../models/' + className);
     var id=1;
 
@@ -21,7 +42,7 @@ router.get('/catalog', function(req, res, next) {
         });
 
     }
-        else {
+    else {
         var form = bsForm.getForm(className, {});
         res.render('console/catalog', {form:form, className: className, message:''});
     }

@@ -29,7 +29,8 @@ Catalog_country.placeholder = {
 
 Catalog_country.attributesRule = {
     required : ['name',"description"],
-    save:   ['name','description', 'image', 'flag', 'name_2', 'baner', 'slug', 'active', 'translate', 'banner2', 'title', 'rating', 'pos', 'del' ]
+    save:   ['name','description', 'image', 'flag', 'name_2', 'baner', 'slug', 'active', 'translate', 'banner2', 'title', 'rating', 'pos', 'del' ],
+    tableColumns : [ 'id', 'image', 'name', 'active', 'rating']
 };
 
 Catalog_country.attributesType = {
