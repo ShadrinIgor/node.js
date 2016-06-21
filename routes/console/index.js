@@ -6,7 +6,7 @@ var Localpassport = require('passport-local');
 
 var catalog = require("./catalog");
 
-router.all( "/catalog", catalog ); //(/)?(:action)?
+router.all( "/catalog(/)?(:action)?(/)?(:action2)?(/)?(:action3)?(/)(:action4)?(/)?", catalog ); //(/)?(:action)?
 
 // Logout
 router.get("/logout", function( req, res, next ){

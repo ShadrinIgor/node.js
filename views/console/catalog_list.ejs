@@ -77,9 +77,9 @@
                                                 <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-sm" type="button" aria-expanded="true">Действия <span class="caret"></span>
                                                 </button>
                                                 <ul role="menu" class="dropdown-menu">
-                                                    <li><a href="#">Редактировать</a>
+                                                    <li><a href="<%= siteHelper.getSiteUrl( [ "console", "catalog", items[i].tableName, items[i].getAttribute("id") ] ) %>">Редактировать</a>
                                                     </li>
-                                                    <li><a href="#">Удалить</a>
+                                                    <li><a href="<%= siteHelper.getSiteUrl( [ "console", "catalog", items[i].tableName, "delete", items[i].getAttribute("id") ] ) %>">Удалить</a>
                                                     </li>
                                                 </ul>
                                             </div>

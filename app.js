@@ -13,7 +13,7 @@ var pgSession = require('connect-pg-simple')(session);
 var LocalStrategy = require('passport-local').Strategy;
 var Catalog_users = require( './models/catalog_users' );
 var md5 = require("md5");
-var helper = require("site-helper");
+var methodOverride = require('method-override')
 
 var routes = require('./routes/index');
 var consoleRoute = require('./routes/console/index');
@@ -84,10 +84,10 @@ app.use(session({
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(helper( ));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 app.use(cookieParser());
 
 app.use(passport.initialize());

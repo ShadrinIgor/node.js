@@ -222,6 +222,34 @@ $(function () {
 
 $(document).ready(function () {
 
+    // Обрабатываем удаление картинок через Ajax
+    $("[data-file-catalog]").click( function( item ){
+        var catalog = $( this ).attr("data-file-catalog");
+        var itemId = $( this ).attr("data-file-item-id");
+        var field = $( this ).attr("data-file-field");
+        var thisObj = this;
+
+        if( catalog && itemId && field ){
+            $.ajax({
+                url:       '/console/catalog/'+catalog+'/delete-file/'+itemId+'/'+field+'?_id='+Math.random(),
+                type:      'GET',
+                data:       '',
+                dataType: 'html',
+                success:  function(value){
+                    if( value == 1 ){
+                        $( thisObj ).parent().hide( 400, function(){
+                            $( thisObj ).parent().remove();
+                        })
+                    }
+                },
+                error:    function(){
+                    alert('error!');
+                }
+            });
+        }
+        return false;
+    });
+
     $('#stars').on('starrr:change', function (e, value) {
         $('#count').html(value);
     });

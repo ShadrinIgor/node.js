@@ -53,22 +53,24 @@
                             </div>
                             <div class="x_content">
 
-                                <form class="form-horizontal form-label-left" novalidate action="" method="post">
+                                <form class="form-horizontal form-label-left" novalidate action="<%= siteHelper.getSiteUrl( ["console", "catalog",  item.tableName, item.getAttribute("id") ] )+ ( item.getAttribute("id") > 0 ? '?_method=put' : '' ) %>" method="post" enctype="multipart/form-data">
                                     <p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a></p>
-                                    <span class="section"><%= className %></span>
+                                    <span class="section"><%= item.tableName %></span>
                                     <% if( message ) {%>
                                     <%- message %>
+                                    <% } %>
+                                    <% if( uploadMessage ) {%>
+                                    <%- uploadMessage %>
                                     <% } %>
                                     <%- form %>
                                     <div class="ln_solid"></div>
                                     <div class="form-group">
                                         <div class="col-md-6 col-md-offset-3">
-                                            <button type="submit" class="btn btn-primary">Отмена</button>
+                                            <button type="button" onclick="window.location = '<%= siteHelper.getSiteUrl( ["console", "catalog", item.tableName] ) %>';" class="btn btn-primary">Отмена</button>
                                             <button id="send" type="submit" class="btn btn-success">Отправить</button>
                                         </div>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
                     </div>
