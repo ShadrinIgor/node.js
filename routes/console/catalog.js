@@ -60,25 +60,17 @@ router.put('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
         }
         else {
             model.setFromObj( fields );
-            uploadFiles( files, model, function( uploadError ){
-                if( uploadError != undefined && uploadError ){
-                    uploadMessage = 'Произошла обшибка: '+uploadError;
-                }
+            model.save( function( item, error ){
+                if( error != undefined )message = 'Произошла обшибка: '+error;
+                                   else message = 'Запись успешно сохраннена';
 
-                //console.log( model._attributes );
-                model.save( function( item, error ){
-                    if( error != undefined )message = 'Произошла обшибка: '+error;
-                                       else message = 'Запись успешно сохраннена';
-
-                    res.render('console/catalog', {item: model, form: model.getForm(), message: message, siteHelper: siteHelper, uploadMessage: uploadMessage});
-                });
-            });
+                res.render('console/catalog', {item: model, form: model.getForm(), message: message, siteHelper: siteHelper, uploadMessage: uploadMessage});
+            }, files);
         }
     });
 });
 
 router.post('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
-    console.log( 'Нет' );
     var message = '';
     var form;
     var className = 'catalog_country';
@@ -95,59 +87,8 @@ router.post('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
     res.render('console/catalog', {form: form, className: className, message: message});
 });
 
-function uploadFiles( files, model, callBack ){
-    var queue = require("queue");
-    var q = queue();
-
-    if( typeof( files ) == 'object' ){
-        var file;
-        var errors = [];
-        var currentDate = new Date();
-        var path = 'f/'+model.tableName+'/'+currentDate.getFullYear()+'/'+( currentDate.getMonth() + 1 )+'/'+currentDate.getDate()+'/';
-        if( model.getAttribute("id")>0 )path += model.getAttribute("id") + '/';
-
-        model.getFieldsByType( model, "image").forEach( function ( field ){
-            if( typeof( files[field] ) == "object" && files[field].size > 0 ){
-                q.push( function(next) {
-                    // Создаем категории
-                    fs.mkdirRecursive('../../public/' + path, function (error) {
-                        if( error )errors.push(error);
-                        // Переносим файлы
-                        fs.move(files[field].path, '../../public/' + path + files[field].name, function (error) {
-                            console.log("пернес: " + files[field].name);
-                            // Удалем если в поле ранее был сохранен файл
-                            if( model.getAttribute( field ) ){
-                                fs.remove( '../../public/' + model.getAttribute( field ), function( error ){
-                                    console.log("удалил: " + model.getAttribute( field ) + ', и сохранил: '+ files[field].name );
-                                    model.setAttribute(field, path + files[field].name);
-                                    next();
-                                });
-                            }
-                            else{
-                                console.log('сохранил: '+ files[field].name );
-                                model.setAttribute(field, path + files[field].name);
-                                next();
-                            }
-                        });
-                    });
-                });
-            }
-        });
-
-        // Когда все задачи закончатся запустится callBack
-        q.start(function(err) {
-            callBack( errors );
-        });
-
-    }
-        else {
-        callBack( ['error upload']);
-    }
-}
-
 // Удаялем картинки
 router.get('/catalog/(:table)/delete-file/(:id)/(:field)(/)?', function(req, res, next) {
-
     if( req.params.table && req.params.id>0 && req.params.field ){
         var model = require( "../../models/"+req.params.table );
         var fs = require("fs");
