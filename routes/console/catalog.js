@@ -26,7 +26,7 @@ router.get('/catalog/(:table)(/)?', function(req, res, next) {
 
 router.get('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
     if( req.params.id >0 ){
-        var className = 'catalog_country';
+        var className = req.params.table;
         var Catalog_country = require('../../models/' + className);
             Catalog_country.fetch(req.params.id, function (item, error) {
                 if (error != undefined) {
@@ -34,8 +34,9 @@ router.get('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
                 }
                 else {
 
-                    var form = item.getForm();''
-                    res.render('console/catalog', {item: item, form: form, className: className, message: '', siteHelper: siteHelper, uploadMessage: ''});
+                    item.getForm( function( form ){
+                        res.render('console/catalog', {item: item, form: form, className: className, message: '', siteHelper: siteHelper, uploadMessage: ''});
+                    } );
                 }
             });
     }
@@ -56,7 +57,10 @@ router.put('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
 
         if( err ) {
             message = err;
-            res.render('console/catalog', {item: model, form: model.getForm(), message: message, siteHelper: siteHelper, uploadMessage: uploadMessage});
+            model.getForm( function( form ){
+                res.render('console/catalog', {item: model, form: form, message: message, siteHelper: siteHelper, uploadMessage: uploadMessage});
+            });
+
         }
         else {
             model.setFromObj( fields );
@@ -64,7 +68,10 @@ router.put('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
                 if( error != undefined )message = 'Произошла обшибка: '+error;
                                    else message = 'Запись успешно сохраннена';
 
-                res.render('console/catalog', {item: model, form: model.getForm(), message: message, siteHelper: siteHelper, uploadMessage: uploadMessage});
+                model.getForm( function( form ){
+                    res.render('console/catalog', {item: model, form: form, message: message, siteHelper: siteHelper, uploadMessage: uploadMessage});
+                });
+
             }, files);
         }
     });
@@ -83,8 +90,9 @@ router.post('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
         message = 'Произошла обшибка: '+bsForm.errors;
     }
 
-    form = Catalog_country.getForm();
-    res.render('console/catalog', {form: form, className: className, message: message});
+    Catalog_country.getForm( function( form ){
+        res.render('console/catalog', {form: form, className: className, message: message});
+    });
 });
 
 // Удаялем картинки

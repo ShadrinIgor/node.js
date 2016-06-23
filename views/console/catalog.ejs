@@ -1,4 +1,8 @@
 <%- include('template/header') -%>
+
+<!-- select2 -->
+<link href="css/select/select2.min.css" rel="stylesheet">
+
 <div class="container body">
     <div class="main_container">
         <%- include('template/menu') -%>
@@ -99,11 +103,19 @@
 <!-- pace -->
 <script src="js/pace/pace.min.js"></script>
 <script src="js/custom.js"></script>
+<!-- select2 -->
+<script src="js/select/select2.full.js"></script>
 <!-- form validation -->
 <script src="js/validator/validator.js"></script>
-<script>
+<script type="text/javascript">
     // initialize the validator function
     validator.message['date'] = 'not a real date';
+
+    // Выствление CUSTOM SELECT
+    $(".select2_single").select2({
+        placeholder: "Select a state",
+        allowClear: true
+    });
 
     // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
     $('form')

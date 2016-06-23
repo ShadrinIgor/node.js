@@ -5385,3 +5385,9 @@ ul.notifications {
   width: 100%;
   height: 2px;
 }
+
+
+.relationHasMenyBlock{
+  max-height: 200px;
+  overflow-y: auto;
+}

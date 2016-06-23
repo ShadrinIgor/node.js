@@ -40,7 +40,7 @@ Catalog_users.attributesType = {
 };
 
 Catalog_users.relations = {
-    country_id: [ "BELONGS_TO", "catalog_country" ]
+    country_id: [ "HAS_MANY", "catalog_country" ]
 };
 
 module.exports = Catalog_users;
