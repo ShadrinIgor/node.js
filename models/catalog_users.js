@@ -12,6 +12,7 @@ Catalog_users.attributesName = {
     fathname:'Отчество',
     email:'Email',
     country_id:'Страна',
+    city_id:'Страна 2',
     salt:'Соль для пароля'
 };
 
@@ -27,7 +28,7 @@ Catalog_users.placeholder = {
 
 Catalog_users.attributesRule = {
     required : ['name', 'email', 'email'],
-    save:   [ 'salt, date_add', 'name','email', 'password', 'active', 'surname', 'fathname', 'country_id' ]
+    save:   [ 'city_id', 'salt', 'name','email', 'password', 'active', 'surname', 'fathname', 'country_id' ]
 };
 
 Catalog_users.attributesType = {
@@ -35,12 +36,13 @@ Catalog_users.attributesType = {
     password:'password',
     active:'checkbox',
     date_add : 'date',
-    integer : 'country_id',
+    integer : 'country_id, city_id',
     boolean : 'active'
 };
 
 Catalog_users.relations = {
-    country_id: [ "HAS_MANY", "catalog_country" ]
+    country_id: [ "HAS_MANY", "catalog_country" ],
+    city_id : [ "BELONGS_TO", "catalog_country" ]
 };
 
 module.exports = Catalog_users;
