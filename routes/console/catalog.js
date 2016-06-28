@@ -9,7 +9,7 @@ router.get('/catalog/(:table)(/)?', function(req, res, next) {
     var classObj = require('../../models/' + req.params.table);
     if( classObj ){
         classObj.fetchAll({limit:25}, function (items, error) {
-            if (error != undefined) {
+            if ( error && error != undefined) {
                 res.send('Error1:' + error);
             }
             else {
@@ -29,7 +29,8 @@ router.get('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
         var className = req.params.table;
         var Catalog_country = require('../../models/' + className);
             Catalog_country.fetch(req.params.id, function (item, error) {
-                if (error != undefined) {
+
+                if ( error && error != undefined) {
                     res.send('Error1:' + error);
                 }
                 else {
@@ -63,16 +64,25 @@ router.put('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
 
         }
         else {
-            model.setFromObj( fields );
-            model.save( function( item, error ){
-                if( error != undefined )message = 'Произошла обшибка: '+error;
-                                   else message = 'Запись успешно сохраннена';
+            console.log( "fields" );
+            console.log( fields );
 
-                model.getForm( function( form ){
-                    res.render('console/catalog', {item: model, form: form, message: message, siteHelper: siteHelper, uploadMessage: uploadMessage});
-                });
+            model.setFromObj( fields, function( errors ){
 
-            }, files);
+                console.log( "put setFromObj" );
+                console.log( model._attributes );
+                model.save( function( item, error ){
+                    if( error && error != undefined ) {
+                        message = 'Произошла обшибка: ' + error;
+                    }
+                    else message = 'Запись успешно сохраннена';
+
+                    model.getForm( function( form ){
+                        res.render('console/catalog', {item: model, form: form, message: message, siteHelper: siteHelper, uploadMessage: uploadMessage});
+                    });
+
+                }, fields, files);
+            });
         }
     });
 });
@@ -103,13 +113,13 @@ router.get('/catalog/(:table)/delete-file/(:id)/(:field)(/)?', function(req, res
         model.fetch( req.params.id, function(){
             if( model.getAttribute( req.params.field ) ){
                 fs.unlink( "../../public/"+model.getAttribute( req.params.field ), function( err ){
-                    if( err != undefined ){
+                    if( err && err != undefined ){
                         console.log( "Ошибка удаления файла: "+err );
                     }
 
                     model.setAttribute( req.params.field, "" );
                     model.save( function( item, error ){
-                        if( error != undefined ){
+                        if( error && error != undefined ){
                             console.log( "Ошибка сохранения при удалении файла: "+error );
                             res.send("0");
                         }
