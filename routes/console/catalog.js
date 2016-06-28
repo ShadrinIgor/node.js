@@ -64,13 +64,9 @@ router.put('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
 
         }
         else {
-            console.log( "fields" );
-            console.log( fields );
 
             model.setFromObj( fields, function( errors ){
 
-                console.log( "put setFromObj" );
-                console.log( model._attributes );
                 model.save( function( item, error ){
                     if( error && error != undefined ) {
                         message = 'Произошла обшибка: ' + error;
