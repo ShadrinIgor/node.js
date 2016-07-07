@@ -5,8 +5,10 @@ var CatalogUsers = require('../../models/catalog_users');
 var Localpassport = require('passport-local');
 
 var catalog = require("./catalog");
+var tinymce = require("./tinymce");
 
-router.all( "/catalog(/)?(:action)?(/)?(:action2)?(/)?(:action3)?(/)(:action4)?(/)?", catalog ); //(/)?(:action)?
+router.all( "/catalog(/)?(:action)?(/)?(:action2)?(/)?(:action3)?(/)?(:action4)?(/)?", catalog ); //(/)?(:action)?
+router.all( "/tinymce(/)?(:action)?(/)?(:action2)?(/)?(:action3)?(/)?(:action4)?(/)?", tinymce ); //(/)?(:action)?
 
 // Logout
 router.get("/logout", function( req, res, next ){

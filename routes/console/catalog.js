@@ -124,7 +124,6 @@ router.get('/catalog/(:table)/delete-file/(:id)/(:field)(/)?', function(req, res
                         }
 
                     });
-
                 });
             }
         });
