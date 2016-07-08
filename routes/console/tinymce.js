@@ -138,21 +138,24 @@ router.delete('/tinymce/upload/(:file)(/)?', function(req, res, next) {
     }
 });
 
-router.get('/tinymce/images(/)?', function(req, res, next) {
+router.get('/tinymce/images(/)?(:dir)?(/)?', function(req, res, next) {
 
     var q2 = queue({concurrency:1});
     var cout = [];
-    fs.readdir( "public/f/editor_tinymce", function ( err, files ){
+    var path = "f/editor_tinymce";
+    if( req.params.dir != undefined )path += "/"+req.params.dir;
+
+    fs.readdir( "public/"+path, function ( err, files ){
         if( err )res.send( err );
             else {
             files.forEach( function(file){
 
                 q2.push( function( next ){
 
-                    fs.stat( "public/f/editor_tinymce/"+file, function( err, stats ){
+                    fs.stat( "public/" + path+"/"+file, function( err, stats ){
                         if( file.indexOf( "_2." ) == -1 && file.indexOf( "_3." ) == -1 && stats.size > 0 ){
 
-                            cout.push( "/f/editor_tinymce/"+siteHelper.getImageSize( file, 3 ) );
+                            cout.push( "/"+ path+"/"+siteHelper.getImageSize( file, 3 ) );
                         }
                         next();
                     });

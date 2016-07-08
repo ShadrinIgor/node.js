@@ -53,7 +53,7 @@
             <tr>
                 <td id="ILBFolder">
                     <ul>
-                        <li data-ng-click="SelectFolder()">Корень</li>
+                        <li data-ng-click="SelectFolder('')">Корень</li>
                         <li data-ng-repeat="folder in folders"><div class="FTitle" data-ng-click="SelectFolder(folder)"> - {{folder}}</div><div class="FolderActions"><img data-ng-click="folderAction(folder,'edit')" src="img/edit.png" alt="Редактировать" /><img data-ng-click="folderAction(folder,'del')" src="img/delete.png" alt="Удалить" /></div></li>
                         <li class="ILBFlast"><img data-ng-click="folderAction(folder,'add')" src="img/add.png" alt="Создать" /></li>
                     </ul>

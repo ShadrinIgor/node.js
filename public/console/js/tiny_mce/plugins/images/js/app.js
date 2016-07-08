@@ -119,6 +119,7 @@ var n=0;
             function($scope, $http){
                 $scope.list = [];
                 $scope.folders = [];
+                $scope.activeFolder = "";
 
                 $http.get( "/console/tinymce/images" )
                     .then(
@@ -148,7 +149,16 @@ var n=0;
                 };
 
                 $scope.SelectFolder = function ( folder ){
-                    alert('select folder');
+                    $scope.activeFolder = folder;
+
+                    $http.get( "/console/tinymce/images/"+folder )
+                        .then(
+                            function (response) {
+                                $scope.list = response.data || [];
+                            },
+                            function () {
+                            }
+                        );
                 };
 
                 $scope.folderAction = function ( folder, action ){
