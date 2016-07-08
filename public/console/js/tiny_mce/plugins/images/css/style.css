@@ -19,7 +19,64 @@
     margin: 3px;
     overflow: hidden;
     width: 100px;
-    height: 100px;
+    height: 114px;
     background: #efefef;
 }
 
+.ILImage table td{
+    text-align: center;
+    cursor: pointer;
+    background: #e6e6e6;
+    font-size: 10px;
+}
+
+.ILImage table td:hover{
+    background: #dcc8dc;
+}
+
+.ILIBlock{
+    height: 92px;
+    overflow: hidden;
+}
+
+#ILBFolder {
+    width: 150px;
+    vertical-align: top;
+    padding-top: 20px;
+    border-right: 1px solid #dddddd;
+}
+
+#ILBFolder ul{
+    list-style: none;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+#ILBFolder ul li{
+    padding: 3px 0px 3px 5px;
+    background: rgba(249, 246, 246, 0.45);
+    border-bottom: 1px solid rgba(221, 221, 221, 0.46);
+    cursor: pointer;
+}
+
+#ILBFolder ul li:hover{
+    background: rgba(249, 246, 246, 0.9);
+}
+
+.FolderActions{
+    float: right;
+    display: none;
+    margin-right: 3px;
+}
+
+#ILBFolder ul li:hover .FolderActions{
+    display: block;
+}
+
+#ILBFolder ul li.ILBFlast{
+    border: 0px;
+    text-align: center;
+    background: #fff;
+}
+
+.FTitle{display: inline-block;}

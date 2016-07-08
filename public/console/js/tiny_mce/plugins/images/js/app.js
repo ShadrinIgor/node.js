@@ -26,6 +26,8 @@ var ImagesDialog = {
 
 tinyMCEPopup.onInit.add(ImagesDialog.init, ImagesDialog);
 
+var n=0;
+
 (function () {
     'use strict';
 
@@ -115,9 +117,10 @@ tinyMCEPopup.onInit.add(ImagesDialog.init, ImagesDialog);
         .controller('ListFileController', [
             '$scope', '$http',
             function($scope, $http){
-                $scope.list = null;
+                $scope.list = [];
+                $scope.folders = [];
 
-                $http.get( "/console/tinymce/dir" )
+                $http.get( "/console/tinymce/images" )
                     .then(
                         function (response) {
                             $scope.list = response.data || [];
@@ -126,10 +129,99 @@ tinyMCEPopup.onInit.add(ImagesDialog.init, ImagesDialog);
                         }
                     );
 
-                $scope.SelectImage = function( image ){
-                    console.log( image );
-                    alert('Есть такой');
-                }
+                $http.get( "/console/tinymce/dir" )
+                    .then(
+                        function (response) {
+                            $scope.folders = response.data || [];
+                        },
+                        function () {
+                        }
+                    );
+
+                $scope.SelectImage = function( image, size ){
+                    if( size != 3 ){
+                        if( size == 2 )image = image.replace( '_3.', '_'+size+'.' );
+                            else image = image.replace( '_3.', '.' );
+                    }
+                    ImagesDialog.insert('<img src="'+image+'" />');
+                    tinyMCEPopup.close();
+                };
+
+                $scope.SelectFolder = function ( folder ){
+                    alert('select folder');
+                };
+
+                $scope.folderAction = function ( folder, action ){
+                    switch ( action )
+                    {
+                        case 'add' :
+                        var result = prompt("Добавление папки", "");
+                        if( result ) {
+                            $http.post( "/console/tinymce/dir", {folder:result} )
+                                .success(
+                                    function (response) {
+                                        if( parseInt( response ) == 1 ){
+                                            $http.get( "/console/tinymce/dir" )
+                                                .then(
+                                                    function (response) {
+                                                        $scope.folders = response.data || [];
+                                                    },
+                                                    function () {
+                                                    }
+                                                );
+                                        }
+                                        else alert('Произошла ошибка создания');
+                                    }
+                                );
+                        }
+                        break;
+
+                        case 'del' :
+                            var result = confirm("Вы действительно хотите удалить папку?");
+                            if( result ) {
+                                $http.post( "/console/tinymce/dir/?_method=delete", {folder:folder} )
+                                    .success(
+                                        function (response) {
+                                            if( parseInt( response ) == 1 ){
+                                                $http.get( "/console/tinymce/dir" )
+                                                    .then(
+                                                        function (response) {
+                                                            $scope.folders = response.data || [];
+                                                        },
+                                                        function () {
+                                                        }
+                                                    );
+                                            }
+                                            else alert('Произошла ошибка удаления');
+                                        }
+                                    );
+                            }
+                            break;
+
+                        case 'edit' :
+                            var result =  prompt("Редактирование папки", folder);
+                            if( result ) {
+                                $http.post( "/console/tinymce/dir/?_method=put", {oldfolder:folder,folder:result} )
+                                    .success(
+                                        function (response) {
+                                            if( parseInt( response ) == 1 ){
+                                                $http.get( "/console/tinymce/dir" )
+                                                    .then(
+                                                        function (response) {
+                                                            $scope.folders = response.data || [];
+                                                        },
+                                                        function () {
+                                                        }
+                                                    );
+                                            }
+                                            else alert('Произошла ошибка удаления');
+                                        }
+                                    );
+                            }
+                            break;
+                    }
+                };
+
             }
         ])
         .controller( 'ShowPreText', [ '$scope',
@@ -143,36 +235,5 @@ tinyMCEPopup.onInit.add(ImagesDialog.init, ImagesDialog);
             //return ( ListFileController.list.length > 0 ) ? true : false;
         }
     ]);
-
-    /*
-     $('.imageBlock0').live('dblclick', function(){
-     var e = $(this);
-
-     if(e.attr('type') == 'files')
-     {
-     var filesize = e.attr('fsizetext');
-     var text = '<a href="'+e.attr('linkto')+'" '+addAttr+' title="'+e.attr('fname')+'">';
-     text += e.attr('fname');
-     text += '</a> ' + ' ('+filesize+') ';
-     }
-     else
-     {
-     if(e.attr('fmiddle')) {
-     var addAttr = (e.attr('fclass')!=''?'class="'+e.attr('fclass')+'"':'')+' '+(e.attr('frel')!=''?'rel="'+e.attr('frel')+'"':'');
-     var text = '<a href="'+e.attr('linkto')+'" '+addAttr+' title="'+e.attr('fname')+'">';
-     text += '<img src="'+e.attr('fmiddle')+'" width="'+e.attr('fmiddlewidth')+'" height="'+e.attr('fmiddleheight')+'" alt="'+e.attr('fname')+'" />';
-     text += '</a> ';
-     } else {
-     var text = '<img src="'+e.attr('linkto')+'" width="'+e.attr('fwidth')+'" height="'+e.attr('fheight')+'" alt="'+e.attr('fname')+'" /> ';
-     }
-     }
-
-     ImagesDialog.insert(text);
-
-     if($('.imageBlockAct').length == 1) {
-     tinyMCEPopup.close();
-     }
-     });
-     */
 
 }());

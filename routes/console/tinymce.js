@@ -76,7 +76,7 @@ router.post('/tinymce(/)?', function(req, res, next) {
                     "name": file.name ,
                     "type": file.type,
                     "size": file.size,
-                    "deleteUrl":"/console/tinymce/" + file.name+"?_method=delete",
+                    "deleteUrl":"/console/tinymce/upload/" + file.name+"?_method=delete",
                     "deleteType":"DELETE"
                 }]});
 
@@ -96,7 +96,7 @@ router.post('/tinymce(/)?', function(req, res, next) {
     });
 });
 
-router.delete('/tinymce/(:file)(/)?', function(req, res, next) {
+router.delete('/tinymce/upload/(:file)(/)?', function(req, res, next) {
 
     var q = queue();
     var file = req.params.file;
@@ -138,7 +138,7 @@ router.delete('/tinymce/(:file)(/)?', function(req, res, next) {
     }
 });
 
-router.get('/tinymce/dir(/)?', function(req, res, next) {
+router.get('/tinymce/images(/)?', function(req, res, next) {
 
     var q2 = queue({concurrency:1});
     var cout = [];
@@ -167,5 +167,63 @@ router.get('/tinymce/dir(/)?', function(req, res, next) {
     });
 });
 
+router.get('/tinymce/dir(/)?', function(req, res, next) {
+
+    var q2 = queue({concurrency:1});
+    var cout = [];
+    fs.readdir( "public/f/editor_tinymce", function ( err, files ){
+        if( err )res.send( err );
+        else {
+            files.forEach( function(file){
+
+                q2.push( function( next ){
+
+                    fs.stat( "public/f/editor_tinymce/"+file, function( err, stats ){
+                        if( stats.size == 0 ){
+
+                            cout.push( file );
+                        }
+                        next();
+                    });
+                });
+            });
+
+            q2.start( function(error){
+                res.send( JSON.stringify( cout ) );
+            });
+
+        }
+    });
+});
+
+router.post('/tinymce/dir(/)?', function(req, res, next) {
+    console.log("delete folder 2");
+    if( req.body.folder ){
+        fs.mkdir( "public/f/editor_tinymce/"+req.body.folder, 755, function(){
+            res.send("1");
+        });
+    }
+    else res.send("0");
+});
+
+router.put('/tinymce/dir(/)?', function(req, res, next) {
+
+    if( req.body.folder && req.body.oldfolder ){
+        fs.rename( "public/f/editor_tinymce/"+req.body.oldfolder, "public/f/editor_tinymce/"+req.body.folder, function(){
+            res.send("1");
+        });
+    }
+    else res.send("0");
+});
+
+router.delete('/tinymce/dir(/)?', function(req, res, next) {
+    if( req.body.folder ){
+        console.log( req.body.folder );
+        fs.rmdir( "public/f/editor_tinymce/"+req.body.folder, function(){
+            res.send("1");
+        });
+    }
+    else res.send("0");
+});
 
 module.exports = router;

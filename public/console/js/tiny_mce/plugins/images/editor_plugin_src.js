@@ -12,7 +12,7 @@
 			ed.addCommand('mceImages', function() {
 				ed.windowManager.open({
 					file : url + '/images.htm',
-					width : 700 + parseInt(ed.getLang('images.delta_width', 0)),
+					width : 800 + parseInt(ed.getLang('images.delta_width', 0)),
 					height : 550 + parseInt(ed.getLang('images.delta_height', 0)),
 					inline: true,
 					popup_css : false
@@ -32,9 +32,9 @@
 		getInfo : function() {
 			return {
 				longname : 'Images Manager',
-				author : 'Antonov Andrey',
-				authorurl : 'http://dustweb.ru',
-				infourl : 'http://dustweb.ru/log/projects/tinymce_images/',
+				author : 'Shadrin igor',
+				authorurl : 'shadrin.igor@gmail.com',
+				infourl : 'shadrin.igor@gmail.com',
 				version : '1.1 beta 2'
 			};
 		}
