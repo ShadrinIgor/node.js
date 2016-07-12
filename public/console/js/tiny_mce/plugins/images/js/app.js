@@ -12,6 +12,7 @@
 /* jshint nomen:false */
 /* global window, angular */
 
+
 var ImagesDialog = {
     init : function(ed) {
         tinyMCEPopup.resizeToInnerSize();
@@ -31,8 +32,8 @@ var n=0;
 (function () {
     'use strict';
 
-    var isOnGitHub = window.location.hostname === 'blueimp.github.io',
-        url = isOnGitHub ? '//jquery-file-upload.appspot.com/' : '/console/tinymce';
+    var isOnGitHub = false,
+        url = '/console/tinymce/upload';
 
     angular.module('demo', [
         'blueimp.fileupload'
@@ -60,26 +61,42 @@ var n=0;
             }
         ])
 
-        .controller('DemoFileUploadController', [
-            '$scope', '$http', '$filter', '$window',
-            function ($scope, $http) {
+        .service('API', function () {
+            this.folder = "";
+            this.getFolder = function () {
+                return "/"+this.folder;
+            };
+            this.setFolder = function (folder) {
+                this.folder = folder;
+                return this;
+            };
+        })
+
+        .controller('FileUploadController', [
+            '$scope', '$http', 'API', '$filter', '$window',
+            function ($scope, $http, API) {
                 $scope.options = {
                     url: url
                 };
-                if (!isOnGitHub) {
-                    $scope.loadingFiles = true;
-                    $http.get(url)
-                        .then(
-                            function (response) {
-                                $scope.loadingFiles = false;
-                                $scope.queue = response.data.files || [];
-                                //this.ListFileController();
-                            },
-                            function () {
-                                $scope.loadingFiles = false;
-                            }
-                        );
-                }
+
+                $scope.loadingFiles = true;
+
+                console.log( API.getFolder() );
+                $scope.getFolder = function(){
+                    return API.getFolder();
+                };
+
+                $http.get(url)
+                    .then(
+                        function (response) {
+                            $scope.loadingFiles = false;
+                            $scope.queue = response.data.files || [];
+                        },
+                        function () {
+                            $scope.loadingFiles = false;
+                        }
+                    );
+
             }
         ])
         .controller('FileDestroyController', [
@@ -115,11 +132,10 @@ var n=0;
         ])
 
         .controller('ListFileController', [
-            '$scope', '$http',
-            function($scope, $http){
+            '$scope', '$http', 'API',
+            function($scope, $http, API ){
                 $scope.list = [];
                 $scope.folders = [];
-                $scope.activeFolder = "";
 
                 $http.get( "/console/tinymce/images" )
                     .then(
@@ -149,8 +165,9 @@ var n=0;
                 };
 
                 $scope.SelectFolder = function ( folder ){
-                    $scope.activeFolder = folder;
+                    API.setFolder( folder );
 
+                    //console.log("set" + Option.folder);
                     $http.get( "/console/tinymce/images/"+folder )
                         .then(
                             function (response) {
@@ -234,6 +251,7 @@ var n=0;
 
             }
         ])
+
         .controller( 'ShowPreText', [ '$scope',
             function( $scope ){
                 return ( ListFileController.list.length > 0 ) ? false : true;

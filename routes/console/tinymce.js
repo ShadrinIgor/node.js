@@ -10,7 +10,7 @@ router.get('/tinymce(/)?', function(req, res, next) {
     res.send("Ура");
 });
 
-router.post('/tinymce(/)?', function(req, res, next) {
+router.post('/tinymce/upload(/)?(:folder)?', function(req, res, next) {
     var images = require('images');
 
     var q = queue({concurrency:1});
@@ -20,9 +20,12 @@ router.post('/tinymce(/)?', function(req, res, next) {
 
         if( file && file.size > 0 ){
 
+            var path = 'f/editor_tinymce/';
+            if( req.params.folder )path += folder + '/';
+
             // Создаем директорию
             q.push( function( next ){
-                fs.mkdirRecursive( 'public/f/editor_tinymce/' , function( error ) {
+                fs.mkdirRecursive( 'public/'+ path, function( error ) {
                     if (error)console.log(error);
 
                     next();
@@ -31,11 +34,11 @@ router.post('/tinymce(/)?', function(req, res, next) {
 
             // Переносим файл
             q.push( function( next ){
-                fs.move( file.path, 'public/f/editor_tinymce/' + file.name , function( error ){
+                fs.move( file.path, 'public/'+ path + file.name , function( error ){
                     if( error )console.log( error );
-                    images('public/f/editor_tinymce/' + file.name)
-                        .draw(images("public/images/logo.png"), images('public/f/editor_tinymce/' + file.name).width()-50, images('public/f/editor_tinymce/' + file.name).height()-50)
-                        .save('public/f/editor_tinymce/' + file.name, {
+                    images('public/'+ path + file.name)
+                        .draw(images("public/images/logo.png"), images('public/'+ path + file.name).width()-50, images('public/'+ path + file.name).height()-50)
+                        .save( 'public/'+ path + file.name, {
                             quality : 80
                         });
 
@@ -48,18 +51,18 @@ router.post('/tinymce(/)?', function(req, res, next) {
                 var fileName = file.name;
                 var fileParam = fileName.split(".");
 
-                images('public/f/editor_tinymce/' + fileName)
+                images('public/'+ path + fileName)
                     .size(300)
-                    .draw(images("public/images/logo.png"), images('public/f/editor_tinymce/' + file.name).width()-50, images('public/f/editor_tinymce/' + file.name).height()-50)
-                    .save('public/f/editor_tinymce/' + fileParam[0]+'_2.jpg', {
+                    .draw(images("public/images/logo.png"), images('public/'+ path + file.name).width()-50, images('public/'+ path + file.name).height()-50)
+                    .save('public/'+ path + fileParam[0]+'_2.jpg', {
                         quality : 60
                     });
 
 
-                images('public/f/editor_tinymce/' + fileName)
+                images('public/'+ path + fileName)
                     .size(100)
-                    .draw(images("public/images/logo.png"), images('public/f/editor_tinymce/' + file.name).width()-50, images('public/f/editor_tinymce/' + file.name).height()-50)
-                    .save('public/f/editor_tinymce/' + fileParam[0]+'_3.jpg', {
+                    .draw(images("public/images/logo.png"), images('public/'+ path + file.name).width()-50, images('public/'+ path + file.name).height()-50)
+                    .save('public/'+ path + fileParam[0]+'_3.jpg', {
                         quality : 60
                     });
 
@@ -71,8 +74,8 @@ router.post('/tinymce(/)?', function(req, res, next) {
                 res.setHeader('vary', 'Accept-Encoding');
 
                 res.send({"files":[{
-                    "url":"http://localhost:3000/f/editor_tinymce/" + file.name,
-                    "thumbnailUrl":"http://localhost:3000/f/editor_tinymce/" + siteHelper.getImageSize( file.name, 3 ),
+                    "url":"http://localhost:3000/" + path + file.name,
+                    "thumbnailUrl":"http://localhost:3000/" + path + siteHelper.getImageSize( file.name, 3 ),
                     "name": file.name ,
                     "type": file.type,
                     "size": file.size,
