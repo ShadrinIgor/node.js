@@ -12,7 +12,6 @@
 /* jshint nomen:false */
 /* global window, angular */
 
-
 var ImagesDialog = {
     init : function(ed) {
         tinyMCEPopup.resizeToInnerSize();
@@ -32,7 +31,7 @@ var n=0;
 (function () {
     'use strict';
 
-    var isOnGitHub = false,
+    var isOnGitHub = window.location.hostname === 'blueimp.github.io',
         url = '/console/tinymce/upload';
 
     angular.module('demo', [
@@ -61,42 +60,52 @@ var n=0;
             }
         ])
 
-        .service('API', function () {
-            this.folder = "";
-            this.getFolder = function () {
-                return "/"+this.folder;
+        .service( "API", function(){
+            this.folder = "/";
+
+            this.getFolder = function (){
+                return '/'+this.folder;
             };
-            this.setFolder = function (folder) {
+
+            this.setFolder = function (folder){
                 this.folder = folder;
                 return this;
             };
+
+            this.getImageList = function( $http, $scope ){
+                $http.get( "/console/tinymce/images" + this.folder )
+                    .then(
+                        function (response) {
+                            $scope.list = response.data || [];
+                        },
+                        function () {
+                        }
+                    );
+            };
+
+            this.getDirList = function( $http, $scope ){
+                $http.get( "/console/tinymce/dir" )
+                    .then(
+                        function (response) {
+                            $scope.folders = response.data || [];
+                        },
+                        function () {
+                        }
+                    );
+            }
         })
 
-        .controller('FileUploadController', [
+        .controller('DemoFileUploadController', [
             '$scope', '$http', 'API', '$filter', '$window',
             function ($scope, $http, API) {
                 $scope.options = {
                     url: url
                 };
 
-                $scope.loadingFiles = true;
-
-                console.log( API.getFolder() );
+                $scope.loadingFiles = false;
                 $scope.getFolder = function(){
                     return API.getFolder();
-                };
-
-                $http.get(url)
-                    .then(
-                        function (response) {
-                            $scope.loadingFiles = false;
-                            $scope.queue = response.data.files || [];
-                        },
-                        function () {
-                            $scope.loadingFiles = false;
-                        }
-                    );
-
+                }
             }
         ])
         .controller('FileDestroyController', [
@@ -133,27 +142,12 @@ var n=0;
 
         .controller('ListFileController', [
             '$scope', '$http', 'API',
-            function($scope, $http, API ){
+            function($scope, $http, API){
                 $scope.list = [];
                 $scope.folders = [];
 
-                $http.get( "/console/tinymce/images" )
-                    .then(
-                        function (response) {
-                            $scope.list = response.data || [];
-                        },
-                        function () {
-                        }
-                    );
-
-                $http.get( "/console/tinymce/dir" )
-                    .then(
-                        function (response) {
-                            $scope.folders = response.data || [];
-                        },
-                        function () {
-                        }
-                    );
+                API.getDirList( $http, $scope );
+                API.getImageList( $http, $scope );
 
                 $scope.SelectImage = function( image, size ){
                     if( size != 3 ){
@@ -166,16 +160,12 @@ var n=0;
 
                 $scope.SelectFolder = function ( folder ){
                     API.setFolder( folder );
-
-                    //console.log("set" + Option.folder);
-                    $http.get( "/console/tinymce/images/"+folder )
-                        .then(
-                            function (response) {
-                                $scope.list = response.data || [];
-                            },
-                            function () {
-                            }
-                        );
+                    API.getImageList( $http, $scope );
+                    if( folder ){
+                        $scope.options = {
+                            url: url+'/'+folder
+                        };
+                    }
                 };
 
                 $scope.folderAction = function ( folder, action ){
@@ -187,17 +177,8 @@ var n=0;
                             $http.post( "/console/tinymce/dir", {folder:result} )
                                 .success(
                                     function (response) {
-                                        if( parseInt( response ) == 1 ){
-                                            $http.get( "/console/tinymce/dir" )
-                                                .then(
-                                                    function (response) {
-                                                        $scope.folders = response.data || [];
-                                                    },
-                                                    function () {
-                                                    }
-                                                );
-                                        }
-                                        else alert('Произошла ошибка создания');
+                                        if( parseInt( response ) == 1 )API.getDirList( $http, $scope );
+                                            else alert('Произошла ошибка создания');
                                     }
                                 );
                         }
@@ -209,17 +190,8 @@ var n=0;
                                 $http.post( "/console/tinymce/dir/?_method=delete", {folder:folder} )
                                     .success(
                                         function (response) {
-                                            if( parseInt( response ) == 1 ){
-                                                $http.get( "/console/tinymce/dir" )
-                                                    .then(
-                                                        function (response) {
-                                                            $scope.folders = response.data || [];
-                                                        },
-                                                        function () {
-                                                        }
-                                                    );
-                                            }
-                                            else alert('Произошла ошибка удаления');
+                                            if( parseInt( response ) == 1 )API.getDirList( $http, $scope );
+                                                else alert('Произошла ошибка удаления');
                                         }
                                     );
                             }
@@ -231,17 +203,8 @@ var n=0;
                                 $http.post( "/console/tinymce/dir/?_method=put", {oldfolder:folder,folder:result} )
                                     .success(
                                         function (response) {
-                                            if( parseInt( response ) == 1 ){
-                                                $http.get( "/console/tinymce/dir" )
-                                                    .then(
-                                                        function (response) {
-                                                            $scope.folders = response.data || [];
-                                                        },
-                                                        function () {
-                                                        }
-                                                    );
-                                            }
-                                            else alert('Произошла ошибка удаления');
+                                            if( parseInt( response ) == 1 )API.getDirList( $http, $scope );
+                                                else alert('Произошла ошибка удаления');
                                         }
                                     );
                             }
@@ -251,7 +214,6 @@ var n=0;
 
             }
         ])
-
         .controller( 'ShowPreText', [ '$scope',
             function( $scope ){
                 return ( ListFileController.list.length > 0 ) ? false : true;
