@@ -61,13 +61,14 @@
                 <td id="ILBFiles">
                     <div class="panel panel-succes">
                         <div class="panel-body">
-                            <div class="ILImage" data-ng-repeat="image in list">
+                            <div class="ILImage" data-ng-repeat="image in list()">
                                 <div class="ILIBlock"><img src="{{image}}" /></div>
                                 <table width="100%">
                                     <tr>
                                         <td data-ng-click="SelectImage(image, 1)" title="Оригинальный размер">1</td>
                                         <td data-ng-click="SelectImage(image, 2)" title="Размер 2">2</td>
                                         <td data-ng-click="SelectImage(image, 3)" title="Размер 3">3</td>
+                                        <td data-ng-click="DeleteImage(image)" style="background: red;color: white" title="Удалить">X</td>
                                     </tr>
                                 </table>
                             </div>
@@ -84,8 +85,8 @@
         <br>
         <!-- The file upload form used as target for the file upload widget -->
         <form id="fileupload" action="{{'/console/tinymce'+getFolder()}}" method="POST" enctype="multipart/form-data"  data-ng-controller="DemoFileUploadController" data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+
             <!-- Redirect browsers with JavaScript disabled to the origin page -->
-            |{{getFolder()}}|
             <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
             <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
             <div class="row fileupload-buttonbar">

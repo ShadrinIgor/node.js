@@ -62,6 +62,8 @@ var n=0;
 
         .service( "API", function(){
             this.folder = "/";
+            this.images = [];
+            var thisObj = this;
 
             this.getFolder = function (){
                 return '/'+this.folder;
@@ -72,11 +74,12 @@ var n=0;
                 return this;
             };
 
-            this.getImageList = function( $http, $scope ){
+            this.getImageList = function( $http ){
+
                 $http.get( "/console/tinymce/images" + this.folder )
                     .then(
                         function (response) {
-                            $scope.list = response.data || [];
+                            thisObj.setImages( response.data || [] );
                         },
                         function () {
                         }
@@ -92,6 +95,41 @@ var n=0;
                         function () {
                         }
                     );
+            };
+
+            this.setDir = function( $http, folder ){
+                if( folder )
+                {
+                    $http.get( "/console/tinymce/setdir/"+folder )
+                        .then(
+                            function (response) {
+                                $scope.folders = response.data || [];
+                            },
+                            function () {
+                            }
+                        );
+                }
+            };
+
+
+            this.delImage = function( $http, image ){
+                if( image )
+                {
+                    $http.delete( '/console/tinymce/upload/'+image+'?_method=delete' )
+                        .then(
+                            function (response) {
+                                thisObj.getImageList( $http );
+                            }
+                        );
+                }
+            };
+
+            this.getImages = function() {
+                return this.images;
+            };
+
+            this.setImages = function( list ) {
+                this.images = list;
             }
         })
 
@@ -102,10 +140,11 @@ var n=0;
                     url: url
                 };
 
+                $scope.$on('fileuploaddone', function(event, data) {
+                    API.getImageList($http );
+                });
+
                 $scope.loadingFiles = false;
-                $scope.getFolder = function(){
-                    return API.getFolder();
-                }
             }
         ])
         .controller('FileDestroyController', [
@@ -143,11 +182,13 @@ var n=0;
         .controller('ListFileController', [
             '$scope', '$http', 'API',
             function($scope, $http, API){
-                $scope.list = [];
+                $scope.list = function(){
+                    return API.getImages();
+                };
                 $scope.folders = [];
 
                 API.getDirList( $http, $scope );
-                API.getImageList( $http, $scope );
+                API.getImageList( $http );
 
                 $scope.SelectImage = function( image, size ){
                     if( size != 3 ){
@@ -160,11 +201,19 @@ var n=0;
 
                 $scope.SelectFolder = function ( folder ){
                     API.setFolder( folder );
-                    API.getImageList( $http, $scope );
-                    if( folder ){
-                        $scope.options = {
-                            url: url+'/'+folder
-                        };
+                    API.setDir( $http, folder );
+                    API.getImageList( $http );
+                };
+
+                $scope.DeleteImage = function( imageIn ){
+                    if( imageIn )
+                    {
+                        var imageParam = imageIn.split("/");
+                        if( imageParam.length >0 ){
+
+                            var image = imageParam[ imageParam.length - 1].replace("_3.", ".");
+                            API.delImage( $http, image );
+                        }
                     }
                 };
 

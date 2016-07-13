@@ -4,6 +4,7 @@ var siteHelper = require('site-helper');
 var formidable = require('formidable');
 var fs = require('fs.extra');
 var queue = require('queue');
+var folder = '';
 
 /* GET users listing. */
 router.get('/tinymce(/)?', function(req, res, next) {
@@ -20,7 +21,7 @@ router.post('/tinymce/upload(/)?(:folder)?', function(req, res, next) {
 
         if( file && file.size > 0 ){
 
-            var path = 'f/editor_tinymce/';
+            var path = 'f/editor_tinymce/' + ( folder ? folder+'/' : '' );
             if( req.params.folder )path += folder + '/';
 
             // Создаем директорию
@@ -107,21 +108,21 @@ router.delete('/tinymce/upload/(:file)(/)?', function(req, res, next) {
 
         q.push( function(next){
 
-            fs.remove( 'public/f/editor_tinymce/' + file, function( error ){
+            fs.remove( 'public/f/editor_tinymce/' + ( folder ? folder+'/' : '' ) + file, function( error ){
                 if( error )console.log( error );
                 next();
             });
         });
 
         q.push( function(next){
-            fs.remove( 'public/f/editor_tinymce/' + siteHelper.getImageSize( file, 2 ), function( error ){
+            fs.remove( 'public/f/editor_tinymce/' +( folder ? folder+'/' : '' ) +  siteHelper.getImageSize( file, 2 ), function( error ){
                 if( error )console.log( error );
                 next();
             });
         });
 
         q.push( function(next){
-            fs.remove( 'public/f/editor_tinymce/' + siteHelper.getImageSize( file, 3 ), function( error ){
+            fs.remove( 'public/f/editor_tinymce/' +( folder ? folder+'/' : '' ) +  siteHelper.getImageSize( file, 3 ), function( error ){
                 if( error )console.log( error );
                 next();
             });
@@ -173,6 +174,12 @@ router.get('/tinymce/images(/)?(:dir)?(/)?', function(req, res, next) {
     });
 });
 
+router.get('/tinymce/setdir(/)?(:dir)?(/)??', function(req, res, next) {
+    if( req.params.dir ){
+        folder = req.params.dir
+    }
+});
+
 router.get('/tinymce/dir(/)?', function(req, res, next) {
 
     var q2 = queue({concurrency:1});
@@ -180,6 +187,8 @@ router.get('/tinymce/dir(/)?', function(req, res, next) {
     fs.readdir( "public/f/editor_tinymce", function ( err, files ){
         if( err )res.send( err );
         else {
+
+
             files.forEach( function(file){
 
                 q2.push( function( next ){
