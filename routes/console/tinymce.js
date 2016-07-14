@@ -174,10 +174,11 @@ router.get('/tinymce/images(/)?(:dir)?(/)?', function(req, res, next) {
     });
 });
 
-router.get('/tinymce/setdir(/)?(:dir)?(/)??', function(req, res, next) {
-    if( req.params.dir ){
-        folder = req.params.dir
-    }
+router.get('/tinymce/setdir(/)?(:dir)?(/)?', function(req, res, next) {
+    if( req.params.dir )folder = req.params.dir;
+        else folder = '';
+
+    res.send("1");
 });
 
 router.get('/tinymce/dir(/)?', function(req, res, next) {

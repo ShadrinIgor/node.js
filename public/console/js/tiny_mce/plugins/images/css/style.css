@@ -80,3 +80,7 @@
 }
 
 .FTitle{display: inline-block;}
+
+#ILBFolder ul li.activeFolder{
+    background: #d3eafb;
+}

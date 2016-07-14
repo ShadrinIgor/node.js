@@ -61,12 +61,12 @@ var n=0;
         ])
 
         .service( "API", function(){
-            this.folder = "/";
+            this.folder = '/';
             this.images = [];
             var thisObj = this;
 
             this.getFolder = function (){
-                return '/'+this.folder;
+                return ( this.folder != '/' ? '/' : '' ) + this.folder;
             };
 
             this.setFolder = function (folder){
@@ -76,12 +76,10 @@ var n=0;
 
             this.getImageList = function( $http ){
 
-                $http.get( "/console/tinymce/images" + this.folder )
+                $http.get( "/console/tinymce/images" + ( this.folder != '/' ? '/' : '' ) + this.folder )
                     .then(
                         function (response) {
                             thisObj.setImages( response.data || [] );
-                        },
-                        function () {
                         }
                     );
             };
@@ -91,26 +89,13 @@ var n=0;
                     .then(
                         function (response) {
                             $scope.folders = response.data || [];
-                        },
-                        function () {
                         }
                     );
             };
 
             this.setDir = function( $http, folder ){
-                if( folder )
-                {
-                    $http.get( "/console/tinymce/setdir/"+folder )
-                        .then(
-                            function (response) {
-                                $scope.folders = response.data || [];
-                            },
-                            function () {
-                            }
-                        );
-                }
+                $http.get( "/console/tinymce/setdir/"+folder );
             };
-
 
             this.delImage = function( $http, image ){
                 if( image )
@@ -143,6 +128,10 @@ var n=0;
                 $scope.$on('fileuploaddone', function(event, data) {
                     API.getImageList($http );
                 });
+
+                $scope.currentFolder = function(){
+                    return API.getFolder();
+                };
 
                 $scope.loadingFiles = false;
             }
@@ -205,6 +194,10 @@ var n=0;
                     API.getImageList( $http );
                 };
 
+                $scope.checkFolderActive = function(folder){
+                    return ( folder == API.folder || ( folder === undefined && ( API.folder == "" || API.folder == "/" ) ) ) ? 'activeFolder' : 'folderItem';
+                };
+
                 $scope.DeleteImage = function( imageIn ){
                     if( imageIn )
                     {
@@ -245,6 +238,11 @@ var n=0;
                                     );
                             }
                             break;
+
+
+                        // Надо сделать выделение категории + проверить правильно ли выбирается категория
+
+
 
                         case 'edit' :
                             var result =  prompt("Редактирование папки", folder);
