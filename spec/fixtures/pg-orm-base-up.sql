@@ -1,0 +1,2 @@
+INSERT INTO catalog_country(name, description, flag, image, image_2, slug ) values( 'Узбекистан 2', 'Это прото супер', '-', '--', '---', 'uzb2' );
+INSERT INTO catalog_country(name, description, flag, image, image_2, slug ) values( 'Узбекистан 3', 'Это прото супер 3', '- 3', '-- 3', '--- 3', 'uzb3' );

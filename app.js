@@ -13,7 +13,7 @@ var pgSession = require('connect-pg-simple')(session);
 var LocalStrategy = require('passport-local').Strategy;
 var Catalog_users = require( './models/catalog_users' );
 var md5 = require("md5");
-var methodOverride = require('method-override')
+var methodOverride = require('method-override');
 
 var routes = require('./routes/index');
 var consoleRoute = require('./routes/console/index');
