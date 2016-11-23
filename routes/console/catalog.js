@@ -6,21 +6,27 @@ var fs = require('fs.extra');
 
 /* GET users listing. */
 router.get('/catalog/(:table)(/)?', function(req, res, next) {
-    var classObj = require('../../models/' + req.params.table);
-    if( classObj ){
-        classObj.fetchAll({limit:25}, function (items, error) {
-            if ( error && error != undefined) {
-                res.send('Error1:' + error);
-            }
-            else {
-                if( classObj.attributesRule && classObj.attributesRule.tableColumns )
-                    var lisTableColumns = classObj.attributesRule.tableColumns;
-                else
-                    var lisTableColumns = [ 'id', 'name' ];
+    var className = req.params.table;
+    var classObj = require('../../models/' + className);
 
-                res.render('console/catalog_list', {items: items, tableColumns: lisTableColumns, message: '', siteHelper: siteHelper});
-            }
-        });
+    if( classObj ){
+        classObj.getForm( function( addformHtml ){
+
+            classObj.fetchAll({limit:25}, function (items, error) {
+                if ( error && error != undefined) {
+                    res.send('Error1:' + error);
+                }
+                else {
+                    if( classObj.attributesRule && classObj.attributesRule.tableColumns )
+                        var lisTableColumns = classObj.attributesRule.tableColumns;
+                    else
+                        var lisTableColumns = [ 'id', 'name' ];
+
+                    res.render('console/catalog_list', {items: items, addForm:addformHtml, className: className, tableColumns: lisTableColumns, message: '', siteHelper: siteHelper});
+                }
+            });
+
+        } );
     }
 });
 
@@ -31,7 +37,7 @@ router.get('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
             Catalog_country.fetch(req.params.id, function (item, error) {
 
                 if ( error && error != undefined) {
-                    res.send('Error1:' + error);
+                    res.send('Error:' + error);
                 }
                 else {
 
@@ -54,6 +60,7 @@ router.put('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
     var model = require('../../models/' + req.params.table);
 
     var form = new formidable.IncomingForm();
+    console.log(req.body);
     form.parse(req, function(err, fields, files) {
 
         if( err ) {
@@ -61,7 +68,6 @@ router.put('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
             model.getForm( function( form ){
                 res.render('console/catalog', {item: model, form: form, message: message, siteHelper: siteHelper, uploadMessage: uploadMessage});
             });
-
         }
         else {
 
@@ -83,25 +89,65 @@ router.put('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
     });
 });
 
-router.post('/catalog/(:table)/(:id)(/)?', function(req, res, next) {
+router.post('/catalog/(:table)(/)?', function(req, res, next) {
+
     var message = '';
     var form;
-    var className = 'catalog_country';
-    var Catalog_country = require('../../models/' + className);
+    var className = req.params.table;
+    var model = require('../../models/' + className);
 
-    if( Catalog_country.saveForm( req.body) ){
-        message = 'Запись успешно сохраннена';
+    if( className && model ){
+
+        var form = new formidable.IncomingForm();
+        console.log(req.body);
+        form.parse(req, function(err, fields, files) {
+
+            if (err) {
+                message = err;
+                model.getForm(function (form) {
+                    res.render('console/catalog', {
+                        item: model,
+                        form: form,
+                        message: message,
+                        siteHelper: siteHelper,
+                        uploadMessage: ''
+                    });
+                });
+            }
+            else {
+                model.setFromObj( fields, function( errors ) {
+
+                    model.saveModel(function (result, errors) {
+                        if (errors && errors.length > 0) {
+                            model.getForm(function (form) {
+
+                                res.render('console/catalog', {
+                                    item: model,
+                                    form: form,
+                                    className: className,
+                                    message: '',
+                                    siteHelper: siteHelper,
+                                    uploadMessage: ''
+                                });
+                            });
+                        } else {
+                            res.redirect(siteHelper.getSiteUrl(['console', 'catalog', className]));
+                        }
+                    }, req.body);
+
+                });
+            }
+        });
     }
-        else{
+    else{
         message = 'Произошла обшибка: '+bsForm.errors;
+        classModel.getForm( function( form ){
+            res.render('console/catalog', {form: form, className: className, message: message, siteHelper: siteHelper, uploadMessage: ''});
+        });
     }
-
-    Catalog_country.getForm( function( form ){
-        res.render('console/catalog', {form: form, className: className, message: message});
-    });
 });
 
-// Удаялем картинки
+// Удаляем картинки
 router.get('/catalog/(:table)/delete-file/(:id)/(:field)(/)?', function(req, res, next) {
     if( req.params.table && req.params.id>0 && req.params.field ){
         var model = require( "../../models/"+req.params.table );

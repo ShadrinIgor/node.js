@@ -5,7 +5,7 @@
     "client" : "pgsql",
     "connection" : {
       "host": "127.0.0.1",
-      "database": "world-travel.uz",
+      "database": "travel-blog.kz",
       "port" : 5432,
       "user": "postgres",
       "password": "",

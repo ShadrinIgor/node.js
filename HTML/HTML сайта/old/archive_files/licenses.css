@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* CSS Document */
+.page-licenses  {
+	padding: 4em;
+}
+.licenses img {
+	max-width: 100%;
+}
+.licenses p {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 700;
+	text-transform: uppercase;
+	margin-top: 1em;
+}
+.licenses a:after {
+	position: relative;
+	display: inline;
+	content: '|';
+	margin: 0 0.5em;
+	color: #ccc;
+	font-weight: 400;
+}
+@media only screen and (max-width: 480px) {
+	.page-licenses  { padding: 2.5em; }
+}

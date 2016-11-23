@@ -5391,3 +5391,12 @@ ul.notifications {
   max-height: 200px;
   overflow-y: auto;
 }
+
+
+.modal.add-new-items-form .item.form-group{
+  overflow: hidden;
+}
+
+.modal.add-new-items-form .modal-content{
+  width: 912px;
+}

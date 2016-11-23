@@ -1,5 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var console = require('app-console');
 
-module.exports = console;
+router.get( '', function ( req, res, next ) {
+  res.render( 'index', { title: 'Игорь' } );
+} );
+
+module.exports = router;
+

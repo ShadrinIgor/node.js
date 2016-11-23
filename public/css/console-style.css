@@ -1,0 +1,279 @@
+h2{text-align: center;margin: 5px 0px 3px;font-size: 22px;}
+
+#ConsoleMain
+{
+    width: 1000px;
+    overflow: hidden;
+    margin: 0px auto;
+}
+
+.textAlignCenter{text-align: center;}
+
+#tableListItems
+{
+    width: 800px;
+    margin: 0px auto;
+}
+#tableListItems tr:nth-child(2n) {
+    background: #f0f0f0; /* Цвет фона */
+}
+#tableListItems tr:nth-child(1) {
+    background: #666; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+}
+
+#tableListItems td input[type=text], #tableListItems td select{width: 90%;}
+
+.fieldID{width: 20px;text-align: center;}
+.fieldActions{width: 220px;text-align: center;}
+
+#menu{text-align: center;}
+#menu ul {margin: 0px;padding: 0px;}
+#menu li {list-style-type: none;display: inline-block;}
+
+h1{text-align: center;}
+
+.displayNone{display: none;}
+.listItems, .relationListItems{max-height: 150px;overflow-y: auto;
+
+    width: 387px;
+    border-top: 1px solid #9f9f9f;
+    border-bottom: 1px solid #9f9f9f;
+    padding: 10px;
+}
+.listItems ul, .relationListItems ul{margin: 0px;padding: 0px;}
+.listItems li, .relationListItems li{list-style-type: none;}
+.listItems li:nth-child(2n), .relationListItems li:nth-child(2n) {
+    background: #efefef; /* Цвет фона */
+}
+.listItems input, .relationListItems input{border: 1px solid #afafaf;}
+
+.editTable{width: 800px;border-top: 3px solid #5555ff;border-bottom: 3px solid #5555ff;border-radius: 10px;}
+.editTable textarea, .editTable input[type=text]{width: 590px;}
+.editTable select{width: 592px;}
+.editTable th{text-align: right;padding-right: 10px;vertical-align: top;
+    background: #fff; /* Для старых браузров */
+    background: -moz-linear-gradient(top, #fff, #cfcfff); /* Firefox 3.6+ */
+    /* Chrome 1-9, Safari 4-5 */
+    background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%,#fff), color-stop(100%,#cfcfff));
+    /* Chrome 10+, Safari 5.1+ */
+    background: -webkit-linear-gradient(top, #fff, #cfcfff);
+    background: -o-linear-gradient(top, #fff, #cfcfff); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #fff, #cfcfff); /* IE10 */
+    background: linear-gradient(top, #fff, #cfcfff); /* CSS3 */
+}
+
+#gallery
+{
+    background: #fff; /* Для старых браузров */
+    background: -moz-linear-gradient(top, #fff, #efefef); /* Firefox 3.6+ */
+    /* Chrome 1-9, Safari 4-5 */
+    background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%,#fff), color-stop(100%,#efefef));
+    /* Chrome 10+, Safari 5.1+ */
+    background: -webkit-linear-gradient(top, #fff, #efefef);
+    background: -o-linear-gradient(top, #fff, #efefef); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #fff, #efefef); /* IE10 */
+    background: linear-gradient(top, #fff, #efefef); /* CSS3 */
+
+    border-radius: 8px;
+    padding:5px 0px;overflow: hidden;width: 800px;margin: 0px auto;text-align: center;border-top:2px solid #afafaf ;border-bottom:2px solid #afafaf ;}
+#gallery .GItem{background:#fff;display:inline-block;width: 157px;padding: 5px; border-radius: 3px;border: 1px solid #afafaf;margin: 0px 3px 3px 0px;text-align: center;}
+#gallery .GItem img{width: 100px;}
+#gallery .GItem input {text-align: center;}
+
+.overflowHidden{overflow: hidden;}
+
+.errorSummary
+{
+    border: 1px solid #991402;
+    border-top: 3px solid #761002;
+    border-bottom: 3px solid #761002;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px #991402;
+    padding: 10px;
+
+    background: #fefcea; /* Для старых браузров */
+    background: -moz-linear-gradient(top, #dee3e9, #c8aaaa); /* Firefox 3.6+ */
+    /* Chrome 1-9, Safari 4-5 */
+    background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%,#dee3e9), color-stop(100%,#c8aaaa));
+    /* Chrome 10+, Safari 5.1+ */
+    background: -webkit-linear-gradient(top, #dee3e9, #c8aaaa);
+    background: -o-linear-gradient(top, #dee3e9, #c8aaaa); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #dee3e9, #c8aaaa); /* IE10 */
+    background: linear-gradient(top, #dee3e9, #c8aaaa); /* CSS3 */
+    margin: 0px 5px;
+}
+
+.messageSummary
+{
+    border: 1px solid #0bd91f;
+    border-top: 3px solid #0abe1b;
+    border-bottom: 3px solid #0abe1b;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px #0bd91f;
+    padding: 10px;
+
+    background: #fefcea; /* Для старых браузров */
+    background: -moz-linear-gradient(top, #dee3e9, #c4ffca); /* Firefox 3.6+ */
+    /* Chrome 1-9, Safari 4-5 */
+    background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%,#dee3e9), color-stop(100%,#c4ffca));
+    /* Chrome 10+, Safari 5.1+ */
+    background: -webkit-linear-gradient(top, #dee3e9, #c4ffca);
+    background: -o-linear-gradient(top, #dee3e9, #c4ffca); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #dee3e9, #c4ffca); /* IE10 */
+    background: linear-gradient(top, #dee3e9, #c4ffca); /* CSS3 */
+    margin: 0px 5px;
+}
+
+.formAdd{
+    background: #fff; /* Для старых браузров */
+    background: -moz-linear-gradient(top, #fff, #efefef); /* Firefox 3.6+ */
+    /* Chrome 1-9, Safari 4-5 */
+    background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%,#fff), color-stop(100%,#efefef));
+    /* Chrome 10+, Safari 5.1+ */
+    background: -webkit-linear-gradient(top, #fff, #efefef);
+    background: -o-linear-gradient(top, #fff, #efefef); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #fff, #efefef); /* IE10 */
+    background: linear-gradient(top, #fff, #efefef); /* CSS3 */
+
+    width: 300px;margin: 0px auto;
+    border: 1px solid #afafaf;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px #afafaf;
+}
+.formAdd{font-size: 14px;}
+.formAdd th{ background: #efefef; }
+.formAdd td{text-align: left;}
+#Header
+{
+    overflow: hidden;
+    background: #fff; /* Для старых браузров */
+    background: -moz-linear-gradient(top, #fff, #efefef); /* Firefox 3.6+ */
+    /* Chrome 1-9, Safari 4-5 */
+    background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%,#fff), color-stop(100%,#efefef));
+    /* Chrome 10+, Safari 5.1+ */
+    background: -webkit-linear-gradient(top, #fff, #efefef);
+    background: -o-linear-gradient(top, #fff, #efefef); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #fff, #efefef); /* IE10 */
+    background: linear-gradient(top, #fff, #efefef); /* CSS3 */
+    padding: 5px;
+    margin:10px 20px 20px 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px #afafaf;
+}
+
+#Header a{color:#0000ff;}
+#menu{float: left; width: 830px;}
+
+#HRight
+{
+    float: right;
+    border-left: 1px solid #afafaf;
+    padding:3px 30px 0px 30px;
+}
+
+#menu .displayNone
+{
+    position: absolute;
+    width: 200px;
+    text-align: left;
+    background: rgba( 200, 200, 200, 0.7 );
+    border-radius: 10px;
+    border-top: 3px solid #0000ff;
+    border-left: 1px solid #0000af;
+    border-right: 1px solid #0000af;
+    border-bottom: 3px solid #0000ff;
+    box-shadow: 0px 0px 15px #afafaf;
+    overflow: hidden;
+}
+
+#menu .displayNone li
+{
+    display: block;
+    border-bottom: 1px solid #efefef;
+}
+
+#menu .displayNone li a
+{
+    text-decoration: none;
+    padding: 5px;
+    display: block;
+}
+
+#menu a{font-weight: bold;}
+#menu a
+{
+    display: block;
+    padding: 2px 8px;
+    border-radius: 8px;
+    border: 1px solid #bfbfbf;
+    text-decoration: none;
+
+}
+
+#menu a:hover
+{
+    background: #fff; /* Для старых браузров */
+    background: -moz-linear-gradient(top, #ffffff, #dfdfdf); /* Firefox 3.6+ */
+    /* Chrome 1-9, Safari 4-5 */
+    background: -webkit-gradient(linear, left top, left bottom,
+        color-stop(0%,#ffffff), color-stop(100%,#dfdfdf));
+    /* Chrome 10+, Safari 5.1+ */
+    background: -webkit-linear-gradient(top, #ffffff, #dfdfdf);
+    background: -o-linear-gradient(top, #ffffff, #dfdfdf); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ffffff, #dfdfdf); /* IE10 */
+    background: linear-gradient(top, #ffffff, #dfdfdf); /* CSS3 */
+}
+
+#menu .displayNone li a
+{
+    border: 0px;
+    border-radius: 0px;
+}
+
+#menu .displayNone li a:hover
+{
+    background: #fff; /* Для старых браузров */
+    background: -moz-linear-gradient(top, rgba(255,255,255, 0), #efefef); /* Firefox 3.6+ */
+    /* Chrome 1-9, Safari 4-5 */
+    background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%,rgba(255,255,255, 0)), color-stop(100%,#efefef));
+    /* Chrome 10+, Safari 5.1+ */
+    background: -webkit-linear-gradient(top, rgba(255,255,255, 0), #efefef);
+    background: -o-linear-gradient(top, rgba(255,255,255, 0), #efefef); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(255,255,255, 0), #efefef); /* IE10 */
+    background: linear-gradient(top, rgba(255,255,255, 0), #efefef); /* CSS3 */
+}
+
+.subMenu:hover .displayNone{display: block;}
+
+.pageList{margin-bottom: 20px;text-align: center;}
+.pageList a, .pageList b{
+    display: inline-block;
+    padding: 2px 3px;
+
+
+    margin-left: 3px;
+}
+
+.pageList a{
+    background: #efefef;
+    border: 1px solid #afafaf;
+}
+.pageList b{background: #afafaf;color: #fff;border: 1px solid #afafaf;}
+#consoleRightBlock
+{
+    float: right;
+    width: 200px;
+}
+
+#consoleRightBlock a{display: block;margin-left: 5px;text-decoration: none;}
+#consoleRightBlock a.selectCategory{font-weight: bold;text-decoration: underline;}
