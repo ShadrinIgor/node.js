@@ -15,19 +15,41 @@
 .CItem{
     overflow: hidden;
     padding: 0px;
+    height: 200px;
+    width: 25%;
+    float: left;
+    background: #1a191e;
+}
+
+.Item-col-2 {
+    width: 50%;
+}
+
+.Item-row-2 {
+    height: 400px;
 }
 
 .CIImage{
     height: 200px;
     overflow: hidden;
+    text-align: center;
+}
+
+.Item-row-2 .CIImage{
+    height: 400px;
 }
 
 .CIInfo{
-    position: absolute;
-    margin-top: -100px;
+    position: relative;
+    margin-top: -53px;
+    width: 100%;
+    text-align: left;
+    padding: 10px 20px;
+    background: rgba(0,0,0,.5);
+    line-height: 10px;
 }
 
-.CIInfo div{
+.CIInfo .CIText{
     display: none;
 }
 
@@ -35,9 +57,75 @@ article h4{
     font-style: italic;
     font-family: georgia;
     color: #fff;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 article .CICategory {
     color: #FB0;
     line-height: 2;
 }
+
+article .CIImage img {
+    max-height: 280px;
+    max-width: 360px;
+}
+
+article.Item-col-2 .CIImage img {
+    max-height: 500px;
+    max-width: 700px;
+}
+
+article.Item-row-2 .CIImage img {
+    max-height: 500px;
+    max-width: 700px;
+}
+
+.CIInfo .CICategory {
+    font-size: 13px;
+    font-family: tahoma;
+    line-height: 12px;
+}
+
+.CITitle {
+    height: 21px;
+    overflow: hidden;
+}
+
+.CItemColorRed{
+    background: #ff0000;
+}
+
+.CItemColorRed .CITitle h4{
+    font-size: 20px;
+}
+
+.CIInfoColor {
+    text-align: center;
+    font-style: italic;
+    font-family: georgia;
+}
+
+.CIInfoColor h4 {
+    font-size: 85px;
+    font-weight: bold;
+    margin: 10px 0px 10px 0px;
+}
+
+article .CIInfoColor .CICategory {
+    color: #fff;
+    font-weight: bold;
+}
+
+.CIInfoColor .see-all{
+    margin-top: 10px;
+    border-top: 1px solid rgba(255,255,255, 0.6);
+    margin: 20px 20px;
+    padding-top: 9px;
+    color: #fff;
+}
+
+.row {
+    margin: 0px;
+}
+
