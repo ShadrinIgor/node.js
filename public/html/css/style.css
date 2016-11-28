@@ -5,6 +5,7 @@
     background-image: repeating-linear-gradient(-45deg,#141316,#141316 5px,#1a191e 5px,#1a191e 10px);
     background-size: 42px 42px;
     color: #a8a8aa;
+    font-family: Georgia;
 }
 
 .MRight
@@ -129,3 +130,58 @@ article .CIInfoColor .CICategory {
     margin: 0px;
 }
 
+.PaginationBlock{
+    background: #fff;
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+
+.pagination>li>a{
+    border: 0px;
+    color: #000;
+}
+
+.pagination .active a{
+    background: #f2bb09;
+    color: #000;
+    border-radius: 4px;
+}
+
+footer {
+    padding: 30px 20px 60px 20px;
+}
+
+footer ul{
+    padding: 0px;
+}
+
+footer ul li {
+    border-right: 1px solid rgba(255,255,255,.2);
+    float: left;
+    list-style: none;
+    padding: 3px 15px;
+}
+
+header{
+    text-align: center;
+    margin: 20px 0px;
+}
+
+header h1{
+    font-style: italic;
+    font-size: 32px;
+}
+
+header b{
+    color: #FFB200;
+    font-style: normal;
+    font-size: 36px;
+}
+
+header strong{
+    color: #FFf;
+    text-transform: uppercase;
+    font-size: 36px;
+    font-style: normal;
+}
