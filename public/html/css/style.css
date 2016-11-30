@@ -4,7 +4,7 @@
     background: 50% 0 fixed #141316;
     background-image: repeating-linear-gradient(-45deg,#141316,#141316 5px,#1a191e 5px,#1a191e 10px);
     background-size: 42px 42px;
-    color: #a8a8aa;
+    color: #000;
     font-family: Georgia;
 }
 
@@ -16,10 +16,14 @@
 .CItem{
     overflow: hidden;
     padding: 0px;
-    height: 200px;
+    height: 220px;
     width: 25%;
     float: left;
     background: #1a191e;
+
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
 }
 
 .Item-col-2 {
@@ -27,17 +31,17 @@
 }
 
 .Item-row-2 {
-    height: 400px;
+    height: 440px;
 }
 
 .CIImage{
-    height: 200px;
+    height: 220px;
     overflow: hidden;
     text-align: center;
 }
 
 .Item-row-2 .CIImage{
-    height: 400px;
+    height: 440px;
 }
 
 .CIInfo{
@@ -46,8 +50,16 @@
     width: 100%;
     text-align: left;
     padding: 10px 20px;
-    background: rgba(0,0,0,.5);
+    background: rgba(0,0,0,0.3);
     line-height: 10px;
+
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.CItem:hover .CIInfo{
+    background: rgba(0,0,0,0.8);
 }
 
 .CIInfo .CIText{
@@ -65,6 +77,13 @@ article h4{
 article .CICategory {
     color: #FB0;
     line-height: 2;
+}
+
+.MPost article .CICategory {
+    color: #FF0D3D;
+    line-height: 2;
+    font-weight: bold;
+    font-style: italic;
 }
 
 article .CIImage img {
@@ -116,12 +135,12 @@ article.Item-row-2 .CIImage img {
 article .CIInfoColor .CICategory {
     color: #fff;
     font-weight: bold;
+    font-size: 18px;
 }
 
 .CIInfoColor .see-all{
-    margin-top: 10px;
     border-top: 1px solid rgba(255,255,255, 0.6);
-    margin: 20px 20px;
+    margin: 32px 20px 20px 20px;
     padding-top: 9px;
     color: #fff;
 }
@@ -150,6 +169,7 @@ article .CIInfoColor .CICategory {
 
 footer {
     padding: 30px 20px 60px 20px;
+    color: #adadad;
 }
 
 footer ul{
@@ -168,9 +188,18 @@ header{
     margin: 20px 0px;
 }
 
+.inner header {
+    margin: 0px;
+}
+
 header h1{
     font-style: italic;
-    font-size: 32px;
+    font-size: 26px;
+    color: #adadad;
+}
+
+.inner header h1 {
+    font-size: 24px;
 }
 
 header b{
@@ -179,9 +208,55 @@ header b{
     font-size: 36px;
 }
 
+.inner header b, .inner header strong{
+    font-size: 28px;
+}
+
 header strong{
     color: #FFf;
     text-transform: uppercase;
     font-size: 36px;
     font-style: normal;
+}
+
+.MPost {
+    background: #fff;
+    padding: 20px 50px 50px 50px;
+}
+
+.MPost article{
+    width: 80%;
+    margin: 0px auto;
+}
+
+.MPost .CIImage {
+    float: left;
+    margin: 0px 20px 15px 0px;
+}
+
+.MPost .CIInfo{
+    text-align: justify;
+    padding: 0px;
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    width: auto;
+    height: auto;
+    margin: 0px;
+    background: transparent;
+    line-height: normal;
+    font-size: 18px;
+}
+
+.MPost h1{
+    color: #000000;
+    font-size: 40px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+    text-transform: uppercase;
+    padding: 10px 0px 20px 0px;
+    margin-bottom: 0px;
+}
+
+.MPTitle {
+    margin-bottom: 20px;
 }
